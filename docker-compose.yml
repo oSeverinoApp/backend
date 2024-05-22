@@ -1,0 +1,17 @@
+version: '3.3'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: my_postgres_db
+    environment:
+      POSTGRES_USER: severinoapp
+      POSTGRES_PASSWORD: severinoapp
+      POSTGRES_DB: severinoapp_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
