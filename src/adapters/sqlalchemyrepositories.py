@@ -9,7 +9,7 @@ class SqlAchemyRepositories(RepositoriesInterface):
 
     def create_user(self, user:User):
         user = Users(name=user.name, email=user.email, state=user.state, city=user.city, user_type=1)
-        self.db.session.add()
+        self.db.session.add(user)
         self.db.session.commit()
         return user
 
