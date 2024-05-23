@@ -1,11 +1,11 @@
 class User:
-    def __init__(self, id: int, name: str, email: str, cidade: str, estado: str, tipo: str):
+    def __init__(self, name: str, email: str, state: str, city: str, user_type:int=1, id: int=None):
         self.id = id
         self.name = name
         self.email = email
-        self.cidade = cidade
-        self.estado = estado
-        self.user_type = tipo
+        self.city = city
+        self.state = state
+        self.user_type = user_type
         
     def __repr__(self):
         return f"<User(name='{self.name}', email='{self.email}')>"
