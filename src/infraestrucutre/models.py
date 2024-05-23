@@ -2,61 +2,50 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Float
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
+from infraestrucutre.db_setup import db
 
-Base = declarative_base()
-
-class UserTable(Base):
-    __tablename__ = 'users'
-
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    email = Column(String)
-    city = Column(String)
-    state = Column(String)
-    user_type = Column(Integer, ForeignKey('user_type.id'))
-    password = Column(String)
-    access_token = Column(String)
+class Users(db.Model):
+    
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255))
+    email = db.Column(db.String(255))
+    city = db.Column(db.String(255))
+    state = db.Column(db.String(255))
+    user_type = db.Column(db.Integer, ForeignKey('user_type.id'))
+    password = db.Column(db.String(255))
+    access_token = db.Column(db.String(1024))
 
 
-class ServicesTable(Base):
-    __tablename__ = 'services'
+class Services(db.Model):
+        
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255))
 
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
+class UserServices(db.Model):
+    
+    id = db.Column(db.Integer, primary_key=True)
+    descricao = db.Column(db.String(255))
+    user_id = db.Column(db.Integer, ForeignKey('users.id'))
+    service_id = db.Column(db.Integer, ForeignKey('services.id'))
 
+class UserType(db.Model):
+        
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255))
 
-class UserServicesTable(Base): 
-    __tablename__ = 'user_services'
+class ServiceOrder(db.Model):
+        
+    id = db.Column(db.Integer, primary_key=True)
+    service_client = db.Column(db.Integer, ForeignKey('users.id'))
+    service_provider = db.Column(db.Integer, ForeignKey('users.id'))
+    service = db.Column(db.Integer, ForeignKey('services.id'))
+    status = db.Column(db.Integer, ForeignKey('status.id'))
+    solicitation_date = db.Column(db.DateTime)
+    service_conclusion_date = db.Column(db.DateTime)
+    service_rating = db.Column(db.Integer)
+    service_comment = db.Column(db.String(255))
+    value = db.Column(db.Float)
 
-    id = Column(Integer, primary_key=True)
-    descricao = Column(String)
-    user_id = Column(Integer, ForeignKey('users.id'))
-    service_id = Column(Integer, ForeignKey('services.id'))
-
-
-class UserTypeTable(Base):
-    __tablename__ = 'user_type'
-
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-
-
-class ServiceOrder(Base):
-    __tablename__ = 'service_orders'
-
-    id = Column(Integer, primary_key=True)
-    service_client = Column(Integer, ForeignKey('users.id'))
-    service_provider = Column(Integer, ForeignKey('users.id'))
-    service = Column(Integer, ForeignKey('services.id'))
-    status = Column(Integer, ForeignKey('status.id'))
-    solicitation_date = Column(DateTime)
-    service_conclusion_date = Column(DateTime)
-    service_rating = Column(Integer)
-    service_comment = Column(String)
-    value = Column(Float)
-
-class StatusTable(Base):
-    __tablename__ = 'status'
-
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
+class Status(db.Model):        
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255))
