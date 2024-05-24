@@ -68,8 +68,7 @@ class Service:
             userServices = self.repositories.get_user_services(user)
             for service in userServices:
                 if service.service_id == service:
-                    raise ValueError('Serviço já cadastrado para o usuário')
-                
+                    raise ValueError('Serviço já cadastrado para o usuário')    
             if userService:
                 raise ValueError('Serviço já cadastrado para o usuário')
             userService = self.repositories.add_user_service(user, service)

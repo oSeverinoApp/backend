@@ -51,6 +51,10 @@ class SqlAchemyRepositories(RepositoriesInterface):
         users = self.db.session.query(Users).join(UserServices, Users.id==UserServices.user_id).filter(UserServices.service_id==service).all()
         return [User(user.name, user.email, user.state, user.city) for user in users]
     
+    def get_services_order_by_client_provider(self, client:int, provider:int):
+        serviceOrder = self.db.session.query(ServiceOrder).filter_by(service_client=client, service_provider=provider).all()
+        return serviceOrder
+    
     def create_service_order(self,
                                 client_id:int,
                                 provider_id:int,
