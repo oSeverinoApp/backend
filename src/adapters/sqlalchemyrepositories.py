@@ -14,6 +14,12 @@ class SqlAchemyRepositories(RepositoriesInterface):
         self.db.session.commit()
         return user
 
+    def get_user_by_id(self, id:int):
+        user = self.db.session.query(Users).filter_by(id=id).first()
+        if user:
+            return user
+        return None
+    
     def get_user_by_email(self, email:str):
         user = self.db.session.query(Users).filter_by(email=email).first()
         if user:
@@ -33,7 +39,14 @@ class SqlAchemyRepositories(RepositoriesInterface):
         self.db.session.add(userServices)
         self.db.session.commit()
         return userServices
+    def get_user_services(self, user_id:int):
+        userServices = self.db.session.query(UserServices).filter_by(user_id=user_id).all()
+        return userServices
     
+    def get_service_by_user(self, user:int):
+        services = self.db.session.query(Services).join(UserServices, Services.id==UserServices.service_id).filter(UserServices.user_id==user).all()
+        return services
+
     def get_users_by_service(self, service:int):
         users = self.db.session.query(Users).join(UserServices, Users.id==UserServices.user_id).filter(UserServices.service_id==service).all()
         return [User(user.name, user.email, user.state, user.city) for user in users]
@@ -55,7 +68,7 @@ class SqlAchemyRepositories(RepositoriesInterface):
         self.db.session.commit()
         return serviceOrder
     
-    
+
     def reject_service_order(self,
                                 service_order_id:int,
                                 status:int,

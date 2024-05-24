@@ -10,9 +10,14 @@ class Service:
         self.repositories = repositories
 
     def create_user(self, name, email, state, city):
+        ## Cria usuario
         user = User(name, email, state, city, user_type=1)
         try:
-            user = self.repositories.create_user(user)
+            user = self.repositories.get_user_by_email(user.email)
+            if user:
+                raise ValueError('Usuário já cadastrado')
+            else:
+                user = self.repositories.create_user(user)
             return {
                 'name': user.name,
                 'email': user.email,
@@ -60,6 +65,13 @@ class Service:
     
     def add_user_service(self, user:int, service:int):
         try:
+            userServices = self.repositories.get_user_services(user)
+            for service in userServices:
+                if service.service_id == service:
+                    raise ValueError('Serviço já cadastrado para o usuário')
+                
+            if userService:
+                raise ValueError('Serviço já cadastrado para o usuário')
             userService = self.repositories.add_user_service(user, service)
             userService = {'user_id': userService.user_id, 'service_id': userService.service_id}
         except ValueError as e:
@@ -81,6 +93,17 @@ class Service:
 
     def request_service_order(self, client:int, provider:int, service:int):
         try:
+            provider = self.repositories.get_user_by_id(provider)
+            if provider.user_type != 2:
+                raise ValueError('Usuário não é prestador de serviço')
+            service = self.repositories.get_service_by_user(provider.id)
+            if service.id != service:
+                raise ValueError('Prestador não oferece este serviço')
+            
+            serviceOrder = self.repositories.get_service_order_by_client_provider(client, provider, service)
+            if serviceOrder.status not in [4, 7, 8, 9, 10, 11, 12]:
+                raise ValueError('Serviço já solicitado e está em alguma etapa aberta')
+            
             serviceOrder = self.repositories.create_service_order(
                 client_id=client, 
                 provider_id=provider, 
