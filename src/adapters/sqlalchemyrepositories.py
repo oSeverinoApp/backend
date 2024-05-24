@@ -1,5 +1,5 @@
 from domain.ports.repositories import RepositoriesInterface
-from infraestrucutre.models import Users
+from infraestrucutre.models import Users, UserServices
 from domain.entities import User
 from datetime import datetime
 class SqlAchemyRepositories(RepositoriesInterface):
@@ -27,5 +27,6 @@ class SqlAchemyRepositories(RepositoriesInterface):
         users = self.db.session.query(Users).filter_by(state=state).all()
         return [User(user.name, user.email, user.state, user.city) for user in users]
     
-    def add_user_service(self, user:int, service:int):
-        pass
+    def add_user_service(self, user_id:int, service_id:int):
+        userServices = self.db.session.add(UserServices(user_id=user_id, service_id=service_id))
+        return userServices

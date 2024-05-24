@@ -1,4 +1,4 @@
-from domain.ports.repositories import RepositoriesInterface
+from adapters.sqlalchemyrepositories import SqlAchemyRepositories
 from domain.entities import User
 from datetime import datetime
 ## Aqui fica a regra de negócio do sistema
@@ -6,7 +6,7 @@ from datetime import datetime
 #O service é o responsável por orquestrar as chamadas entre a API e o ORM
 # A classe Service deve ser quebrada em varias classes, cada uma com sua responsabilidade
 class Service:
-    def __init__(self, repositories: RepositoriesInterface):
+    def __init__(self, repositories: SqlAchemyRepositories):
         self.repositories = repositories
 
     def create_user(self, name, email, state, city):
