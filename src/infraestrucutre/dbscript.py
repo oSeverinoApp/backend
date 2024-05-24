@@ -47,6 +47,6 @@ class PopulateDB:
         self.db.session.commit()
 
         self.db.session.add(Users(id=1, name='Joao', email="teste1@teste1.com", city="Teste", user_type=1))
-        self.db.session.add(Users(id=1, name='Joao', email="teste1@teste1.com", city="Teste", user_type=2))
+        self.db.session.add(Users(id=2, name='Maria', email="teste2@teste1.com", city="Teste", user_type=2))
         
         self.db.session.commit()
