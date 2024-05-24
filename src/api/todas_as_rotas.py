@@ -1,11 +1,13 @@
 from flask import Flask, jsonify, request, Blueprint
 from adapters.sqlalchemyrepositories import SqlAchemyRepositories
 from domain.services.service import Service
-from infraestrucutre.db_setup import db
-from infraestrucutre.dbscript import PopulateDB
+from domain.services.user_service import UserService
+from infraestructure.db_setup import db
+from infraestructure.dbscript import PopulateDB
 
 repositories = SqlAchemyRepositories(db=db)
 domainService = Service(repositories)
+domainUserService = UserService(repositories)
 
 populateDB = PopulateDB(db=db)
 
@@ -41,7 +43,7 @@ def drop_db():
 def create_user():
     try:
         data = request.get_json()
-        data = domainService.create_user(data['name'], data['email'], data['state'], data['city'])
+        data = domainUserService.create_user(data['name'], data['email'], data['state'], data['city'])
         return jsonify({'message': 'User created successfully',
                         "data": data})
     except ValueError as e:
@@ -51,11 +53,11 @@ def create_user():
         print(e)
         return jsonify({'message': str(e)}), 500
     
-#http://127.0.0.1:5000/api/get_user_by_email/teste@asd.com
+#http://127.0.0.1:5000/api/get_user_by_email/teste@asd.comdomainService = Service(repositories)
 @rotas_controller.route('/get_user_by_email/<email>', methods=['GET'])
 def get_user_by_email(email):
     try:
-        user = domainService.get_user_by_email(email)
+        user = domainUserService.get_user_by_email(email)
         if user:
             return jsonify({'id': user.id, 'name': user.name, 'email': user.email, 'state': user.state, 'city': user.city})
         return jsonify({'message': 'User not found'}), 404
@@ -70,7 +72,7 @@ def get_user_by_email(email):
 @rotas_controller.route('/get_users_by_city/<city>', methods=['GET'])
 def get_users_by_city(city):
     try:
-        users = domainService.get_users_by_city(city)
+        users = domainUserService.get_users_by_city(city)
         return jsonify(users), 200
     except ValueError as e:
         print(e)
@@ -83,7 +85,7 @@ def get_users_by_city(city):
 @rotas_controller.route('/get_users_by_state/<state>', methods=['GET'])
 def get_users_by_state(state):
     try:
-        users = domainService.get_users_by_state(state)
+        users = domainUserService.get_users_by_state(state)
         return jsonify(users), 200
     except ValueError as e:
         print(e)
@@ -98,7 +100,7 @@ def get_users_by_state(state):
 @rotas_controller.route('/get_users_by_service/<service>', methods=['GET'])
 def get_users_by_service(service):
     try:
-        users = domainService.get_users_by_service(service)
+        users = domainUserService.get_users_by_service(service)
         return jsonify(users), 200
     except ValueError as e:
         print(e)
@@ -114,7 +116,7 @@ def get_users_by_service(service):
 def add_user_service():
     try:
         data = request.get_json()
-        data = domainService.add_user_service(data['user_id'], data['service_id'])
+        data = domainUserService.add_user_service(data['user_id'], data['service_id'])
         return jsonify({'message': 'Service added successfully',
                         "data": data})
     except ValueError as e:

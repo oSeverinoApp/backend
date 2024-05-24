@@ -1,5 +1,5 @@
 from domain.ports.repositories import RepositoriesInterface
-from infraestrucutre.models import Users, UserServices, ServiceOrder, Services
+from infraestructure.models import Users, UserServices, ServiceOrder, Services
 from domain.entities import User
 from datetime import datetime
 
@@ -43,17 +43,17 @@ class SqlAchemyRepositories(RepositoriesInterface):
         userServices = self.db.session.query(UserServices).filter_by(user_id=user_id).all()
         return userServices
     
-    def get_service_by_user(self, user:int):
-        services = self.db.session.query(Services).join(UserServices, Services.id==UserServices.service_id).filter(UserServices.user_id==user).all()
-        return services
+    def get_user_service_by_user(self, user:int):
+        userServices = self.db.session.query(UserServices).filter_by(user_id=user).all()
+        return userServices
 
     def get_users_by_service(self, service:int):
         users = self.db.session.query(Users).join(UserServices, Users.id==UserServices.user_id).filter(UserServices.service_id==service).all()
         return [User(user.name, user.email, user.state, user.city) for user in users]
     
     def get_services_order_by_client_provider(self, client:int, provider:int):
-        serviceOrder = self.db.session.query(ServiceOrder).filter_by(service_client=client, service_provider=provider).all()
-        return serviceOrder
+        servicesOrder = self.db.session.query(ServiceOrder).filter_by(service_client=client, service_provider=provider).all()
+        return servicesOrder
     
     def create_service_order(self,
                                 client_id:int,

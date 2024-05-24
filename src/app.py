@@ -1,5 +1,5 @@
 from flask import Flask
-from infraestrucutre.db_setup import db
+from infraestructure.db_setup import db
 from api.todas_as_rotas import rotas_controller
 
 app = Flask(__name__)
