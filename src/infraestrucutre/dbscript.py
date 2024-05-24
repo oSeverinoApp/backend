@@ -32,13 +32,13 @@ class PopulateDB:
             #provider_finished finalizado pelo prestador
             #client_finished finalizado pelo cliente
             #close finalizado
-        self.db.session.add(Status(id=1, name='Solicitado'))
-        self.db.session.add(Status(id=2, name='Orçado'))
-        self.db.session.add(Status(id=3, name='Orçamento Aceito'))
-        self.db.session.add(Status(id=4, name='Rejeitado Pelo Prestador'))
-        self.db.session.add(Status(id=5, name='A ser executado'))
-        self.db.session.add(Status(id=6, name='Reaberto'))
-        self.db.session.add(Status(id=7, name='Finalizado pelo prestador'))
-        self.db.session.add(Status(id=8, name='Finalizado pelo cliente'))
-        self.db.session.add(Status(id=9, name='Finalizado'))
+        self.db.session.add(Status(id=1, name='Solicitado', descricao='Solicitado ao executor do trabalho'))
+        self.db.session.add(Status(id=2, name='Orçado', descricao='Recebido o orçamento do serviço'))
+        self.db.session.add(Status(id=3, name='Orçamento Aceito', descricao='Orçamento aceito pelo contratante do serviço'))
+        self.db.session.add(Status(id=4, name='Rejeitado Pelo Prestador', descricao='Trabalho negado pelo prestador do serviço'))
+        self.db.session.add(Status(id=5, name='A ser executado', descricao='Aguardando realização do trabalho'))
+        self.db.session.add(Status(id=6, name='Reaberto', descricao='Solicitação reaberta'))
+        self.db.session.add(Status(id=7, name='Finalizado pelo prestador', descricao='Finalizado pelo prestador'))
+        self.db.session.add(Status(id=8, name='Finalizado pelo cliente', descricao='Finalizado pelo cliente'))
+        self.db.session.add(Status(id=9, name='Finalizado', descricao='Finalizado pelos cliente e prestador'))
         self.db.session.commit()

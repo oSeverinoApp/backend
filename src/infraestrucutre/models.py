@@ -49,3 +49,4 @@ class ServiceOrder(db.Model):
 class Status(db.Model):        
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
+    descricao = db.Column(db.String(255))

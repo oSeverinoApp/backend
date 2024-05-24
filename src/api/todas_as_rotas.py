@@ -79,3 +79,116 @@ def add_user_service():
     except Exception as e:
         print(e)
         return jsonify({'message': str(e)}), 500
+
+## requisição de trabalho entre o contratante e o contratado selecionado
+## solicitar serviço id cliente e prestador e tipo de serviço
+@rotas_controller.route('/request_service', methods=['POST'])
+def request_service():
+    try:
+        data = request.get_json()
+        data = domainService.request_service(data['client_id'], data['provider_id'], data['service_type'])
+        return jsonify({'message': 'Service requested successfully', "data": data})
+    except ValueError as e:
+        print(e)
+        return jsonify({'message': f'{str(e)}'}), 400
+    except Exception as e:
+        print(e)
+        return jsonify({'message': str(e)}), 500
+
+
+## solicitação para envio do orcamento id serviceOrder e valor do orcamento
+@rotas_controller.route('/send_quote', methods=['POST'])
+def send_quote():
+    try:
+        data = request.get_json()
+        data = domainService.send_quote(data['service_order_id'], data['quote_value'])
+        return jsonify({'message': 'Quote sent successfully', "data": data})
+    except ValueError as e:
+        print(e)
+        return jsonify({'message': f'{str(e)}'}), 400
+    except Exception as e:
+        print(e)
+        return jsonify({'message': str(e)}), 500
+
+## aceitar ou rejeitar orcamento id service order  -> aceitar e rejeijar
+@rotas_controller.route('/accept_quote', methods=['POST'])
+def accept_quote():
+    try:
+        data = request.get_json()
+        data = domainService.accept_quote(data['service_order_id'])
+        return jsonify({'message': 'Quote accepted successfully', "data": data})
+    except ValueError as e:
+        print(e)
+        return jsonify({'message': f'{str(e)}'}), 400
+    except Exception as e:
+        print(e)
+        return jsonify({'message': str(e)}), 500
+
+@rotas_controller.route('/reject_quote', methods=['POST'])
+def reject_quote():
+    try:
+        data = request.get_json()
+        data = domainService.reject_quote(data['service_order_id'])
+        return jsonify({'message': 'Quote rejected successfully', "data": data})
+    except ValueError as e:
+        print(e)
+        return jsonify({'message': f'{str(e)}'}), 400
+    except Exception as e:
+        print(e)
+        return jsonify({'message': str(e)}), 500
+
+## reabrir a ordem de serviço 
+@rotas_controller.route('/reopen_service_order', methods=['POST'])
+def reopen_service_order():
+    try:
+        data = request.get_json()
+        data = domainService.reopen_service_order(data['service_order_id'])
+        return jsonify({'message': 'Service order reopened successfully', "data": data})
+    except ValueError as e:
+        print(e)
+        return jsonify({'message': f'{str(e)}'}), 400
+    except Exception as e:
+        print(e)
+        return jsonify({'message': str(e)}), 500
+
+## finalizar por parte do prestador
+@rotas_controller.route('/provider_finalize_service', methods=['POST'])
+def provider_finalize_service():
+    try:
+        data = request.get_json()
+        data = domainService.provider_finalize_service(data['service_order_id'])
+        return jsonify({'message': 'Service finalized by provider successfully', "data": data})
+    except ValueError as e:
+        print(e)
+        return jsonify({'message': f'{str(e)}'}), 400
+    except Exception as e:
+        print(e)
+        return jsonify({'message': str(e)}), 500
+
+## roda finalizar por parte do cliente
+@rotas_controller.route('/client_finalize_service', methods=['POST'])
+def client_finalize_service():
+    try:
+        data = request.get_json()
+        data = domainService.client_finalize_service(data['service_order_id'])
+        return jsonify({'message': 'Service finalized by client successfully', "data": data})
+    except ValueError as e:
+        print(e)
+        return jsonify({'message': f'{str(e)}'}), 400
+    except Exception as e:
+        print(e)
+        return jsonify({'message': str(e)}), 500
+
+## rota para finalizar de vez o serviço
+@rotas_controller.route('/finalize_service', methods=['POST'])
+def finalize_service():
+    try:
+        data = request.get_json()
+        data = domainService.finalize_service(data['service_order_id'])
+        return jsonify({'message': 'Service finalized successfully', "data": data})
+    except ValueError as e:
+        print(e)
+        return jsonify({'message': f'{str(e)}'}), 400
+    except Exception as e:
+        print(e)
+        return jsonify({'message': str(e)}), 500
