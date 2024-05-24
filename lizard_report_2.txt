@@ -1,0 +1,99 @@
+================================================
+  NLOC    CCN   token  PARAM  length  location  
+------------------------------------------------
+       3      1     19      2       3 __init__@7-9@./src/adapters/sqlalchemyrepositories.py
+       5      1     62      2       5 create_user@11-15@./src/adapters/sqlalchemyrepositories.py
+       5      2     39      2       5 get_user_by_id@17-21@./src/adapters/sqlalchemyrepositories.py
+       5      2     39      2       5 get_user_by_email@23-27@./src/adapters/sqlalchemyrepositories.py
+       3      2     57      2       3 get_users_by_city@29-31@./src/adapters/sqlalchemyrepositories.py
+       3      2     57      2       3 get_users_by_state@33-35@./src/adapters/sqlalchemyrepositories.py
+       5      1     52      3       5 add_user_service@37-41@./src/adapters/sqlalchemyrepositories.py
+       3      1     34      2       3 get_user_services@42-44@./src/adapters/sqlalchemyrepositories.py
+       3      1     49      2       3 get_service_by_user@46-48@./src/adapters/sqlalchemyrepositories.py
+       3      2     72      2       3 get_users_by_service@50-52@./src/adapters/sqlalchemyrepositories.py
+      16      1     71      7      16 create_service_order@54-69@./src/adapters/sqlalchemyrepositories.py
+       8      1     46      4       8 reject_service_order@72-79@./src/adapters/sqlalchemyrepositories.py
+      10      1     55      5      10 send_service_order_value@81-90@./src/adapters/sqlalchemyrepositories.py
+       8      1     46      4       8 accept_service_order_value@92-99@./src/adapters/sqlalchemyrepositories.py
+       8      1     46      4       8 reject_service_order_value@101-108@./src/adapters/sqlalchemyrepositories.py
+      14      1     75      7      14 finish_service_order@110-123@./src/adapters/sqlalchemyrepositories.py
+       8      1     46      4       8 reopen_service_order@125-132@./src/adapters/sqlalchemyrepositories.py
+       2      1     13      0       2 teste@17-18@./src/api/todas_as_rotas.py
+      11      3     54      0      11 populate_db@21-31@./src/api/todas_as_rotas.py
+       7      2     41      0       7 drop_db@34-40@./src/api/todas_as_rotas.py
+      12      3     96      0      12 create_user@43-54@./src/api/todas_as_rotas.py
+      12      4    105      1      12 get_user_by_email@58-69@./src/api/todas_as_rotas.py
+      10      3     63      1      10 get_users_by_city@73-82@./src/api/todas_as_rotas.py
+      10      3     63      1      10 get_users_by_state@86-95@./src/api/todas_as_rotas.py
+      10      3     63      1      10 get_users_by_service@101-110@./src/api/todas_as_rotas.py
+      12      3     86      0      12 add_user_service@116-127@./src/api/todas_as_rotas.py
+      11      3     91      0      11 request_service@133-143@./src/api/todas_as_rotas.py
+      11      3     86      0      11 send_quote@148-158@./src/api/todas_as_rotas.py
+      11      3     81      0      11 accept_quote@162-172@./src/api/todas_as_rotas.py
+      11      3     81      0      11 reject_quote@175-185@./src/api/todas_as_rotas.py
+      11      3     81      0      11 reopen_service_order@189-199@./src/api/todas_as_rotas.py
+      11      3     81      0      11 provider_finalize_service@203-213@./src/api/todas_as_rotas.py
+      11      3     81      0      11 client_finalize_service@217-227@./src/api/todas_as_rotas.py
+      11      3     81      0      11 finalize_service@231-241@./src/api/todas_as_rotas.py
+       2      1     12      2       2 __init__@5-6@./src/infraestrucutre/dbscript.py
+       2      1     12      1       2 drop_all_with_cascade@8-9@./src/infraestrucutre/dbscript.py
+     101     11   1043      2     105 populate@11-115@./src/infraestrucutre/dbscript.py
+       2      1     14      2       2 __init__@9-10@./src/domain/services/user_service.py
+      19      4    117      5      20 create_user@12-31@./src/domain/services/user_service.py
+       9      3     51      2       9 get_user_by_email@34-42@./src/domain/services/user_service.py
+      10      4     84      2      10 get_users_by_city@44-53@./src/domain/services/user_service.py
+      10      4     84      2      10 get_users_by_state@55-64@./src/domain/services/user_service.py
+      15      6    105      3      16 add_user_service@66-81@./src/domain/services/user_service.py
+      10      4     84      2      10 get_users_by_service@83-92@./src/domain/services/user_service.py
+       2      1     14      2       2 __init__@9-10@./src/domain/services/service.py
+      31      6    201      4      33 request_service_order@12-44@./src/domain/services/service.py
+      11      3     54      2      11 reject_service_order@46-56@./src/domain/services/service.py
+      12      3     62      3      12 send_service_order_value@58-69@./src/domain/services/service.py
+      11      3     54      2      11 accept_service_order_value@71-81@./src/domain/services/service.py
+      11      3     52      2      11 reject_service_order_value@83-93@./src/domain/services/service.py
+      13      3     68      4      13 finish_service_order_by_client@95-107@./src/domain/services/service.py
+      11      3     52      2      11 finish_service_order_by_provider@109-119@./src/domain/services/service.py
+      11      3     52      2      11 reopen_service_order@121-131@./src/domain/services/service.py
+       2      1      6      1       2 __init__@10-11@./src/domain/ports/repositories.py
+       2      1      5      0       2 create_user@15-16@./src/domain/ports/repositories.py
+       2      1      5      0       2 get_user_by_email@19-20@./src/domain/ports/repositories.py
+       2      1      5      0       2 get_users_by_city@23-24@./src/domain/ports/repositories.py
+       2      1      5      0       2 get_users_by_state@27-28@./src/domain/ports/repositories.py
+       7      1     63      7       7 __init__@2-8@./src/domain/entities.py
+       2      1      8      1       2 __repr__@10-11@./src/domain/entities.py
+       5      1     41      5       5 __init__@14-18@./src/domain/entities.py
+       2      1      8      1       2 __repr__@20-21@./src/domain/entities.py
+       5      3     40      1       8 include_setuptools@46-53@./src/get-pip.py
+       5      3     40      1       8 include_wheel@56-63@./src/get-pip.py
+      11      3     80      0      15 determine_pip_install_arguments@66-80@./src/get-pip.py
+       4      2     36      2       5 monkeypatch_for_cert.cert_parse_args@101-105@./src/get-pip.py
+       8      1     63      1      25 monkeypatch_for_cert@83-107@./src/get-pip.py
+       5      1     35      1       8 bootstrap@110-117@./src/get-pip.py
+      12      3     87      0      20 main@120-139@./src/get-pip.py
+       9      1     32      0       9 connect@9-17@./db_handler.py
+      14      1     37      0      14 create_table@19-32@./db_handler.py
+14 file analyzed.
+==============================================================
+NLOC    Avg.NLOC  AvgCCN  Avg.token  function_cnt    file
+--------------------------------------------------------------
+    115       6.5     1.3       50.9        17     ./src/adapters/sqlalchemyrepositories.py
+    202      10.2     2.9       73.4        17     ./src/api/todas_as_rotas.py
+      7       0.0     0.0        0.0         0     ./src/infraestrucutre/db_setup.py
+     44       0.0     0.0        0.0         0     ./src/infraestrucutre/modelsLegado copy.py
+    108      35.0     4.3      355.7         3     ./src/infraestrucutre/dbscript.py
+     38       0.0     0.0        0.0         0     ./src/infraestrucutre/models.py
+     79      10.7     3.7       77.0         7     ./src/domain/services/user_service.py
+    117      12.6     3.1       67.7         9     ./src/domain/services/service.py
+     16       2.0     1.0        5.2         5     ./src/domain/ports/repositories.py
+     18       4.0     1.0       30.0         4     ./src/domain/entities.py
+  32960       7.1     2.3       54.4         7     ./src/get-pip.py
+     11       0.0     0.0        0.0         0     ./src/app.py
+      6       0.0     0.0        0.0         0     ./src/main.py
+     30      11.5     1.0       34.5         2     ./db_handler.py
+
+===============================================================================================================
+No thresholds exceeded (cyclomatic_complexity > 15 or length > 1000 or nloc > 1000000 or parameter_count > 100)
+==========================================================================================
+Total nloc   Avg.NLOC  AvgCCN  Avg.token   Fun Cnt  Warning cnt   Fun Rt   nloc Rt
+------------------------------------------------------------------------------------------
+     33751       9.5     2.3       69.3       71            0      0.00    0.00

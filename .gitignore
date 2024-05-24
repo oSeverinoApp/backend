@@ -1,0 +1,7 @@
+src/__pycache__
+src/adapters/__pycache__
+src/api/__pycache__
+src/domain/__pycache__
+src/domain/ports/__pycache__
+src/domain/services/__pycache__
+src/infraestructure/__pycache__
