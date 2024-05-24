@@ -43,11 +43,11 @@
 
 ## Popular o DB
 - Para popular o banco de dados basta clicar no link abaixo
-http://127.0.0.1:5000/populate_db
+http://127.0.0.1:5000/api/populate_db
 
 ou
 
-http://localhost:5000/pupolate_db
+http://localhost:5000/api/pupolate_db
 
 
 ## Sempre que alterar o infraestructure models, deve ser pagado todas as tabelas do dB, ao rodar o comandp python3 app.py, o banco de dados é recriado e deve-se acessar algum dos links acima para repopula-lo
