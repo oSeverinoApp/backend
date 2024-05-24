@@ -37,7 +37,14 @@ class Service:
             raise Exception('Internal server error')
         
     def get_users_by_city(self, city:str):
-        return self.repositories.get_users_by_city(city)
+        try:
+            users = self.repositories.get_users_by_city(city)
+            return users
+        except ValueError as e:
+            raise ValueError(f'Erro ao buscar usuario: {str(e)}')
+        except Exception as e:
+            print(str(e))
+            raise Exception('Internal server error')
     
     def get_users_by_state(self, state:str):
         return self.repositories.get_users_by_state(state)
@@ -51,8 +58,15 @@ class Service:
             print(str(e))
             raise Exception('Internal server error')
 
-    def get_user_services_by_user(self, user:int):
-        pass
+    def get_users_by_service(self, service:str):
+        try:
+            users = self.repositories.get_users_by_service(service)
+            return users
+        except ValueError as e:
+            raise ValueError(f'Erro ao buscar usuario: {str(e)}')
+        except Exception as e:
+            print(str(e))
+            raise Exception('Internal server error')
 
     def remove_user_service_from_user(self, user:int, service:int):
         pass

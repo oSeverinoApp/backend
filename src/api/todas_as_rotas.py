@@ -56,12 +56,32 @@ def get_user_by_email(email):
 
 @rotas_controller.route('/get_users_by_city/<city>', methods=['GET'])
 def get_users_by_city(city):
-    pass
+    try:
+        users = domainService.get_users_by_city(city)
+        usuarios = ([{'id': user.id, 'name': user.name, 'email': user.email, 'state': user.state, 'city': user.city}] for user in users)
+        print(usuarios)
+        return jsonify(usuarios), 200
+    except ValueError as e:
+        print(e)
+        return jsonify({'message': f'{str(e)}'}), 400
+    except Exception as e:
+        print(e)
+        return jsonify({'message': 'Internal server error'}), 500
 
 
 @rotas_controller.route('/get_users_by_service/<service>', methods=['GET'])
 def get_users_by_service(service):
-    pass
+    try:
+        users = domainService.get_users_by_service(service)
+        if users:
+            return jsonify({'id': users.id, 'name': users.name, 'email': users.email, 'state': users.state, 'city': users.city})
+        return jsonify({'message': 'User not found providing the service'}), 404
+    except ValueError as e:
+        print(e)
+        return jsonify({'message': f'{str(e)}'}), 400
+    except Exception as e:
+        print(e)
+        return jsonify({'message': 'Internal server error'}), 500
 
 ##vai adicionar um serviço a um usuario ( usuario vai prestar um novo serviço )
 ##user_id
