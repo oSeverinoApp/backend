@@ -9,34 +9,37 @@ class Service:
     def __init__(self, repositories: SqlAchemyRepositories):
         self.repositories = repositories
 
+    def isTheServicePossibleToBeGenerated(self, client:int, provider:int, service:int):
+        provider = self.repositories.get_user_by_id(provider)
+        if provider.user_type != 2:
+            return False
+        service = self.repositories.get_service_by_user(provider.id)
+        if service.id != service:
+            return False        
+        serviceOrder = self.repositories.get_service_order_by_client_provider(client, provider, service)
+        if serviceOrder.status not in [4, 7, 8, 9, 10, 11, 12]:
+            return False
+        return True
+
+
     def request_service_order(self, client:int, provider:int, service:int):
         try:
-            provider = self.repositories.get_user_by_id(provider)
-            if provider.user_type != 2:
-                raise ValueError('Usuário não é prestador de serviço')
-            service = self.repositories.get_service_by_user(provider.id)
-            if service.id != service:
-                raise ValueError('Prestador não oferece este serviço')
-            
-            serviceOrder = self.repositories.get_service_order_by_client_provider(client, provider, service)
-            if serviceOrder.status not in [4, 7, 8, 9, 10, 11, 12]:
-                raise ValueError('Serviço já solicitado e está em alguma etapa aberta')
-            
-            serviceOrder = self.repositories.create_service_order(
-                client_id=client, 
-                provider_id=provider, 
-                service_id=service, 
-                solicitation_date=datetime.now(),
-                status=1
-            )
-            serviceOrder = {
-                'client': serviceOrder.service_client,
-                'provider': serviceOrder.service_provider,
-                'service': serviceOrder.service,
-                'solicitation_date': serviceOrder.solicitation_date,
-                'status': serviceOrder.status
-            }
-            return serviceOrder
+            if self.isTheServicePossibleToBeGenerated(client, provider, service):
+                serviceOrder = self.repositories.create_service_order(
+                    client_id=client, 
+                    provider_id=provider, 
+                    service_id=service, 
+                    solicitation_date=datetime.now(),
+                    status=1
+                )
+                serviceOrder = {
+                    'client': serviceOrder.service_client,
+                    'provider': serviceOrder.service_provider,
+                    'service': serviceOrder.service,
+                    'solicitation_date': serviceOrder.solicitation_date,
+                    'status': serviceOrder.status
+                }
+                return serviceOrder
         except ValueError as e:
             raise ValueError(f'Erro ao solicitar serviço: {str(e)}')
         except Exception as e:
