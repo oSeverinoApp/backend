@@ -47,7 +47,14 @@ class Service:
             raise Exception('Internal server error')
     
     def get_users_by_state(self, state:str):
-        return self.repositories.get_users_by_state(state)
+        try:
+            users = self.repositories.get_users_by_state(state)
+            return users
+        except ValueError as e:
+            raise ValueError(f'Erro ao buscar usuario: {str(e)}')
+        except Exception as e:
+            print(str(e))
+            raise Exception('Internal server error')
     
     def add_user_service(self, user:int, service:int):
         try:
@@ -68,8 +75,104 @@ class Service:
             print(str(e))
             raise Exception('Internal server error')
 
-    def remove_user_service_from_user(self, user:int, service:int):
-        pass
+    def request_service_order(self, client:int, provider:int, service:int):
+        try:
+            return self.repositories.create_service_order(
+                client_id=client, 
+                provider_id=provider, 
+                service_id=service, 
+                solicitation_date=datetime.now(),
+                status=1
+            )
+        except ValueError as e:
+            raise ValueError(f'Erro ao solicitar serviço: {str(e)}')
+        except Exception as e:
+            print(str(e))
+            raise Exception('Internal server error')
+        
+    def reject_service_order(self, service_order:int):
+        try:
+            return self.repositories.reject_service_order(
+                service_order=service_order,
+                status=4
+            )
+        except ValueError as e:
+            raise ValueError(f'Erro ao rejeitar serviço: {str(e)}')
+        except Exception as e:
+            print(str(e))
+            raise Exception('Internal server error')
+    
+    def send_service_order_value(self, service_order:int, value:float):
+        try:
+            return self.repositories.send_service_order_value(
+                service_order=service_order, 
+                value=value,
+                status=2
+            )
+        except ValueError as e:
+            raise ValueError(f'Erro ao enviar valor do serviço: {str(e)}')
+        except Exception as e:
+            print(str(e))
+            raise Exception('Internal server error')
+        
+    def accept_service_order_value(self, service_order:int):
+        try:
+            return self.repositories.accept_service_order_value(
+                service_order=service_order,
+                status=3
+            )
+        except ValueError as e:
+            raise ValueError(f'Erro ao aceitar valor do serviço: {str(e)}')
+        except Exception as e:
+            print(str(e))
+            raise Exception('Internal server error')
+        
+    def reject_service_order_value(self, service_order:int):
+        try:
+            return self.repositories.reject_service_order_value(
+                service_order,
+                status=12
+            )
+        except ValueError as e:
+            raise ValueError(f'Erro ao rejeitar valor do serviço: {str(e)}')
+        except Exception as e:
+            print(str(e))
+            raise Exception('Internal server error')
+        
+    def finish_service_order_by_client(self, service_order:int, rating:int, comment:str):
+        try:
+            return self.repositories.finish_service_order(
+                service_order, 
+                status=8,
+                rating=rating,
+                comment=comment
+            )
+        except ValueError as e:
+            raise ValueError(f'Erro ao finalizar serviço: {str(e)}')
+        except Exception as e:
+            print(str(e))
+            raise Exception('Internal server error')
 
-    def create_service_order(self, client:int, provider:int, service:int, status:int, solicitation_date:datetime):
-        pass
+    def finish_service_order_by_provider(self, service_order:int):
+        try:
+            return self.repositories.finish_service_order(
+                service_order,
+                status=7
+            )
+        except ValueError as e:
+            raise ValueError(f'Erro ao finalizar serviço: {str(e)}')
+        except Exception as e:
+            print(str(e))
+            raise Exception('Internal server error')    
+        
+    def reopen_service_order(self, service_order:int):
+        try:
+            return self.repositories.reopen_service_order(
+                service_order,
+                status=6
+            )
+        except ValueError as e:
+            raise ValueError(f'Erro ao reabrir serviço: {str(e)}')
+        except Exception as e:
+            print(str(e))
+            raise Exception('Internal server error')

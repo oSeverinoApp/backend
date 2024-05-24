@@ -102,11 +102,11 @@ def add_user_service():
 
 ## requisição de trabalho entre o contratante e o contratado selecionado
 ## solicitar serviço id cliente e prestador e tipo de serviço
-@rotas_controller.route('/request_service', methods=['POST'])
+@rotas_controller.route('/request_service_order', methods=['POST'])
 def request_service():
     try:
         data = request.get_json()
-        data = domainService.request_service(data['client_id'], data['provider_id'], data['service_type'])
+        data = domainService.request_service_order(data['client_id'], data['provider_id'], data['service_type'])
         return jsonify({'message': 'Service requested successfully', "data": data})
     except ValueError as e:
         print(e)
@@ -117,11 +117,11 @@ def request_service():
 
 
 ## solicitação para envio do orcamento id serviceOrder e valor do orcamento
-@rotas_controller.route('/send_quote', methods=['POST'])
+@rotas_controller.route('/send_service_order_value', methods=['POST'])
 def send_quote():
     try:
         data = request.get_json()
-        data = domainService.send_quote(data['service_order_id'], data['quote_value'])
+        data = domainService.send_service_order_value(data['service_order_id'], data['quote_value'])
         return jsonify({'message': 'Quote sent successfully', "data": data})
     except ValueError as e:
         print(e)
