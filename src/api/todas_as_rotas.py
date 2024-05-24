@@ -18,12 +18,25 @@ def teste():
 @rotas_controller.route('/populate_db', methods=['GET'])
 def populate_db():
     try:
+        db.create_all()
+    except:
+        print("Tables already created")
+    try:
         populateDB.populate()
         return jsonify({'message': 'Database populated successfully',})
     except Exception as e:
         print(e)
         return jsonify({'message': 'Internal server error'}), 500
 
+@rotas_controller.route('/drop_db', methods=['GET'])
+def drop_db():
+    try:
+        populateDB.drop_all_with_cascade()
+        return jsonify({'message': 'Database dropped successfully',})
+    except Exception as e:
+        print(e)
+        return jsonify({'message': 'Internal server error'}), 500
+    
 @rotas_controller.route('/create_user', methods=['POST'])
 def create_user():
     try:

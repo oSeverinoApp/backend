@@ -1,9 +1,12 @@
 from infraestrucutre.models import *
-
+from sqlalchemy import DDL
 
 class PopulateDB:
     def __init__(self, db):
         self.db = db
+
+    def drop_all_with_cascade(self):
+        self.db.drop_all()
 
     def populate(self,):
         user_types = [
