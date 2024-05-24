@@ -2,8 +2,8 @@ from flask import Flask, jsonify, request, Blueprint
 from adapters.sqlalchemyrepositories import SqlAchemyRepositories
 from domain.services.service import Service
 from domain.services.user_service import UserService
-from infraestrucutre.db_setup import db
-from infraestrucutre.dbscript import PopulateDB
+from infraestructure.db_setup import db
+from infraestructure.dbscript import PopulateDB
 
 repositories = SqlAchemyRepositories(db=db)
 domainService = Service(repositories)

@@ -1,4 +1,4 @@
-from infraestrucutre.models import *
+from infraestructure.models import *
 from sqlalchemy import DDL
 
 class PopulateDB:

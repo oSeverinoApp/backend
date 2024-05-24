@@ -1,5 +1,5 @@
 from domain.ports.repositories import RepositoriesInterface
-from infraestrucutre.models import Users, UserServices, ServiceOrder, Services
+from infraestructure.models import Users, UserServices, ServiceOrder, Services
 from domain.entities import User
 from datetime import datetime
 

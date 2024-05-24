@@ -63,14 +63,16 @@ class UserService:
             print(str(e))
             raise Exception('Internal server error')
     
+    def verify_service_already_registered(self, user:int, service:int):
+        userServices = self.repositories.get_user_services(user)
+        for service in userServices:
+            if service.service_id == service:
+                return True
+        return False
+
     def add_user_service(self, user:int, service:int):
         try:
-            userServices = self.repositories.get_user_services(user)
-            for service in userServices:
-                if service.service_id == service:
-                    raise ValueError('Serviço já cadastrado para o usuário')
-                
-            if userService:
+            if self.verify_service_already_registered(user, service):
                 raise ValueError('Serviço já cadastrado para o usuário')
             userService = self.repositories.add_user_service(user, service)
             userService = {'user_id': userService.user_id, 'service_id': userService.service_id}
@@ -90,3 +92,4 @@ class UserService:
         except Exception as e:
             print(str(e))
             raise Exception('Internal server error')
+        
