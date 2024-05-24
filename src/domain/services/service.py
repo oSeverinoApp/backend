@@ -13,7 +13,12 @@ class Service:
         user = User(name, email, state, city, user_type=1)
         try:
             user = self.repositories.create_user(user)
-            return user
+            return {
+                'name': user.name,
+                'email': user.email,
+                'state': user.state,
+                'city': user.city
+            }
         except ValueError as e:
             raise ValueError(f'Erro ao criar usuario: {str(e)}')
         except Exception as e:
@@ -22,8 +27,15 @@ class Service:
 
 
     def get_user_by_email(self, email:str):
-        return self.repositories.get_user_by_email(email)
-    
+        try:
+            user = self.repositories.get_user_by_email(email)
+            return user
+        except ValueError as e:
+            raise ValueError(f'Erro ao buscar usuario: {str(e)}')
+        except Exception as e:
+            print(str(e))
+            raise Exception('Internal server error')
+        
     def get_users_by_city(self, city:str):
         return self.repositories.get_users_by_city(city)
     

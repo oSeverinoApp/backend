@@ -16,7 +16,7 @@ class SqlAchemyRepositories(RepositoriesInterface):
     def get_user_by_email(self, email:str):
         user = self.db.session.query(Users).filter_by(email=email).first()
         if user:
-            return User(user.name, user.email, user.state, user.city)
+            return user
         return None
     
     def get_users_by_city(self, city:str):
