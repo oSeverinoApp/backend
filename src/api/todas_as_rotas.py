@@ -58,7 +58,7 @@ def get_user_by_email(email):
 def get_users_by_city(city):
     try:
         users = domainService.get_users_by_city(city)
-        usuarios = ([{'id': user.id, 'name': user.name, 'email': user.email, 'state': user.state, 'city': user.city}] for user in users)
+        usuarios = [{'id': user.id, 'name': user.name, 'email': user.email, 'state': user.state, 'city': user.city} for user in users]
         print(usuarios)
         return jsonify(usuarios), 200
     except ValueError as e:
