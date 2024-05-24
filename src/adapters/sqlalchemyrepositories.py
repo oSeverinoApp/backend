@@ -27,26 +27,5 @@ class SqlAchemyRepositories(RepositoriesInterface):
         users = self.db.session.query(Users).filter_by(state=state).all()
         return [User(user.name, user.email, user.state, user.city) for user in users]
     
-    def add_service(self, user:User, service:int):
-        pass
-
-    def get_services_by_user(self, user:User):
-        pass
-
-    def remove_service_from_user(self, user:User, service:int):
-        pass
-
-    def create_service_order(self, client:User, provider:User, service:int, status:int, solicitation_date:datetime):
-        pass
-
-    def get_service_order(self, id:int):
-        pass
-
-    def get_service_orders_by_provider(self, provider:User):
-        pass
-
-    def get_service_orders_by_client(self, client:User):
-        pass
-
-    def update_service_order(self, id:int, status:int):
+    def add_user_service(self, user:int, service:int):
         pass

@@ -42,8 +42,14 @@ class Service:
     def get_users_by_state(self, state:str):
         return self.repositories.get_users_by_state(state)
     
-    def add_user_service(self, user:User, service:int):
-        pass
+    def add_user_service(self, user:int, service:int):
+        try:
+            return self.repositories.add_user_service(user, service)
+        except ValueError as e:
+            raise ValueError(f'Erro ao adicionar serviço ao usuario: {str(e)}')
+        except Exception as e:
+            print(str(e))
+            raise Exception('Internal server error')
 
     def get_user_services_by_user(self, user:int):
         pass

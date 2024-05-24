@@ -26,37 +26,3 @@ class RepositoriesInterface(ABC):
     @abstractmethod
     def get_users_by_state():
         pass
-
-    #Funções que deveriam estar numa classe de UserServiceRepositoryInterface
-    @abstractmethod
-    def add_service():
-        pass
-
-    @abstractmethod
-    def get_services_by_user():
-        pass
-
-    @abstractmethod
-    def remove_service_from_user():
-        pass
-
-    #Funções que deveriam estar numa classe de ServiceOrderRepositoryInterface
-    @abstractmethod
-    def create_service_order():
-        pass
-
-    @abstractmethod
-    def get_service_order():
-        pass
-
-    @abstractmethod
-    def get_service_orders_by_provider():
-        pass
-
-    @abstractmethod
-    def get_service_orders_by_client():
-        pass
-
-    @abstractmethod
-    def update_service_order():
-        pass
