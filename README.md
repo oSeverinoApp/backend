@@ -33,4 +33,8 @@
 
 ## Setup
 
-- Utilizar o comando **pip install -r requirements.txt** no diretório **backend** para instalar as dependências necessárias para executar a aplicação.  
+- Utilizar o comando **pip install -r nrequirements.txt** no diretório **backend** para instalar as dependências necessárias para executar a aplicação.  
+
+## Rodar aplicação:
+- cd src
+- python3 app.py ou python app.py
