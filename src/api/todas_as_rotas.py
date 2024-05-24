@@ -58,9 +58,20 @@ def get_user_by_email(email):
 def get_users_by_city(city):
     try:
         users = domainService.get_users_by_city(city)
-        usuarios = ([{'id': user.id, 'name': user.name, 'email': user.email, 'state': user.state, 'city': user.city}] for user in users)
-        print(usuarios)
-        return jsonify(usuarios), 200
+        return jsonify(users), 200
+    except ValueError as e:
+        print(e)
+        return jsonify({'message': f'{str(e)}'}), 400
+    except Exception as e:
+        print(e)
+        return jsonify({'message': 'Internal server error'}), 500
+    
+
+@rotas_controller.route('/get_users_by_state/<state>', methods=['GET'])
+def get_users_by_state(state):
+    try:
+        users = domainService.get_users_by_state(state)
+        return jsonify(users), 200
     except ValueError as e:
         print(e)
         return jsonify({'message': f'{str(e)}'}), 400
@@ -69,13 +80,13 @@ def get_users_by_city(city):
         return jsonify({'message': 'Internal server error'}), 500
 
 
+
+
 @rotas_controller.route('/get_users_by_service/<service>', methods=['GET'])
 def get_users_by_service(service):
     try:
         users = domainService.get_users_by_service(service)
-        if users:
-            return jsonify({'id': users.id, 'name': users.name, 'email': users.email, 'state': users.state, 'city': users.city})
-        return jsonify({'message': 'User not found providing the service'}), 404
+        return jsonify(users), 200
     except ValueError as e:
         print(e)
         return jsonify({'message': f'{str(e)}'}), 400
@@ -102,6 +113,7 @@ def add_user_service():
 
 ## requisição de trabalho entre o contratante e o contratado selecionado
 ## solicitar serviço id cliente e prestador e tipo de serviço
+### ATE ESSA ROTA AQUI FOI TESTADA E ESTA FUNCIONANDO
 @rotas_controller.route('/request_service_order', methods=['POST'])
 def request_service():
     try:

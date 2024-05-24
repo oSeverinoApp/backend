@@ -29,11 +29,13 @@ class SqlAchemyRepositories(RepositoriesInterface):
         return [User(user.name, user.email, user.state, user.city) for user in users]
     
     def add_user_service(self, user_id:int, service_id:int):
-        userServices = self.db.session.add(UserServices(user_id=user_id, service_id=service_id))
+        userServices = UserServices(user_id=int(user_id), service_id=int(service_id))
+        self.db.session.add(userServices)
+        self.db.session.commit()
         return userServices
     
     def get_users_by_service(self, service:int):
-        users = self.db.session.query(Users).join(Users, UserServices.user_id == Users.id).filter(UserServices.service_id == service).all()
+        users = self.db.session.query(Users).join(UserServices, Users.id==UserServices.user_id).filter(UserServices.service_id==service).all()
         return [User(user.name, user.email, user.state, user.city) for user in users]
     
     def create_service_order(self,
@@ -43,8 +45,17 @@ class SqlAchemyRepositories(RepositoriesInterface):
                                 solicitation_date:datetime,
                                 status:int,
                             ):
-        return self.db.session.add(ServiceOrder(client_id=client_id, provider_id=provider_id, service_id=service_id, solicitation_date=solicitation_date, status=status))
-
+        serviceOrder = ServiceOrder(service_client=client_id, 
+                     service_provider=provider_id, 
+                     service=service_id, 
+                     solicitation_date=solicitation_date, 
+                     status=status
+        )
+        self.db.session.add(serviceOrder)
+        self.db.session.commit()
+        return serviceOrder
+    
+    
     def reject_service_order(self,
                                 service_order_id:int,
                                 status:int,

@@ -39,6 +39,7 @@ class Service:
     def get_users_by_city(self, city:str):
         try:
             users = self.repositories.get_users_by_city(city)
+            users = [{'name': user.name, 'email': user.email, 'state': user.state, 'city': user.city} for user in users]
             return users
         except ValueError as e:
             raise ValueError(f'Erro ao buscar usuario: {str(e)}')
@@ -49,6 +50,7 @@ class Service:
     def get_users_by_state(self, state:str):
         try:
             users = self.repositories.get_users_by_state(state)
+            users = [{'name': user.name, 'email': user.email, 'state': user.state, 'city': user.city} for user in users]
             return users
         except ValueError as e:
             raise ValueError(f'Erro ao buscar usuario: {str(e)}')
@@ -58,7 +60,8 @@ class Service:
     
     def add_user_service(self, user:int, service:int):
         try:
-            return self.repositories.add_user_service(user, service)
+            userService = self.repositories.add_user_service(user, service)
+            userService = {'user_id': userService.user_id, 'service_id': userService.service_id}
         except ValueError as e:
             raise ValueError(f'Erro ao adicionar serviço ao usuario: {str(e)}')
         except Exception as e:
@@ -68,6 +71,7 @@ class Service:
     def get_users_by_service(self, service:str):
         try:
             users = self.repositories.get_users_by_service(service)
+            users = [{'name': user.name, 'email': user.email, 'state': user.state, 'city': user.city} for user in users]
             return users
         except ValueError as e:
             raise ValueError(f'Erro ao buscar usuario: {str(e)}')
@@ -77,13 +81,21 @@ class Service:
 
     def request_service_order(self, client:int, provider:int, service:int):
         try:
-            return self.repositories.create_service_order(
+            serviceOrder = self.repositories.create_service_order(
                 client_id=client, 
                 provider_id=provider, 
                 service_id=service, 
                 solicitation_date=datetime.now(),
                 status=1
             )
+            serviceOrder = {
+                'client': serviceOrder.service_client,
+                'provider': serviceOrder.service_provider,
+                'service': serviceOrder.service,
+                'solicitation_date': serviceOrder.solicitation_date,
+                'status': serviceOrder.status
+            }
+            return serviceOrder
         except ValueError as e:
             raise ValueError(f'Erro ao solicitar serviço: {str(e)}')
         except Exception as e:
