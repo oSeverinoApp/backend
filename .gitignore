@@ -6,4 +6,5 @@ src/domain/ports/__pycache__
 src/domain/services/__pycache__
 src/infraestructure/__pycache__
 
+__pycache__/*
 .vscode
