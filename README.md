@@ -59,3 +59,18 @@ ou
 
 http://localhost:5000/api/drop_db
 
+## TESTES
+
+Para a execução dos testes, execute os comandos abaixo:
+
+**docker-compose -f docker-compose.test.yml up -d**
+
+Para inicializar o banco de testes use o comando:
+
+**python init_test_db.py**
+
+Verifique se foi criado corretamente a partir do comando:
+
+**psql -h localhost -p 5434 -U severinoapp_test -d severinoapp_test_db**
+
+

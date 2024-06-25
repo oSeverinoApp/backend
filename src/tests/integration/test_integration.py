@@ -8,7 +8,7 @@ from infraestructure.db_setup import db
 def client():
     app = Flask(__name__)
     app.register_blueprint(rotas_controller, url_prefix='/api')
-    app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://severinoapp:severinoapp@localhost:5433/severinoapp_db"
+    app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://severinoapp_test:severinoapp_test@localhost:5434/severinoapp_test_db"
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
     with app.test_client() as client:
