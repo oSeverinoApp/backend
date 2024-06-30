@@ -68,7 +68,7 @@ ou
 
 http://localhost:5000/api/pupolate_db
 
-## Sempre que alterar o infraestructure models, deve ser pagado todas as tabelas do dB, ao rodar o comandp python3 app.py, o banco de dados é recriado e deve-se acessar algum dos links acima para repopula-lo
+## Sempre que alterar o infraestructure models, deve ser apagado todas as tabelas do dB, ao rodar o comandp python3 app.py, o banco de dados é recriado e deve-se acessar algum dos links acima para repopula-lo
 
 ## Para apagar as tabelas basta acessar
 
@@ -87,6 +87,8 @@ Para a execução dos testes, execute os comandos abaixo:
 Para inicializar o banco de testes use o comando:
 
 **python init_test_db.py**
+ou
+**python3 init_test_db.py**
 
 Verifique se foi criado corretamente a partir do comando:
 
