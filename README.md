@@ -68,7 +68,7 @@ ou
 
 http://localhost:5000/api/pupolate_db
 
-## Sempre que alterar o infraestructure models, deve ser apagado todas as tabelas do dB, ao rodar o comandp python3 app.py, o banco de dados é recriado e deve-se acessar algum dos links acima para repopula-lo
+## Sempre que alterar o infraestructure models, deve ser apagado todas as tabelas do dB, ao rodar o comando python3 app.py, o banco de dados é recriado e deve-se acessar algum dos links acima para repopula-lo
 
 ## Para apagar as tabelas basta acessar
 
