@@ -87,7 +87,9 @@ Para a execução dos testes, execute os comandos abaixo:
 Para inicializar o banco de testes use o comando:
 
 **python init_test_db.py**
+
 ou
+
 **python3 init_test_db.py**
 
 Verifique se foi criado corretamente a partir do comando:
