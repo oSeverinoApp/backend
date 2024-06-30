@@ -4,19 +4,19 @@
 
 ## Explicação do Sistema
 
-- O Severino App consiste em uma plataforma, onde queremos conectar prestadores de serviço a clientes que precisam de ajudabem diversas áreas, atuando como um intermediário entre clientes e prestadores de serviço, simplificando o processo de contratação e garantindo qualidade e confiabiliadade dos serviços prestados.
+- O Severino App consiste em uma plataforma onde queremos conectar prestadores de serviço a clientes que precisam de ajuda em diversas áreas, atuando como um intermediário entre clientes e prestadores de serviço, simplificando o processo de contratação e garantindo a qualidade e a confiabilidade dos serviços prestados.
 
-- O nosso sistema possui algumas funções que o definem, essa que vão ser retradas abaixo:
+O nosso sistema possui algumas funções que o definem, as quais serão retratadas abaixo:
 
-- Primeiramente temos a opção de cada usuário ser capaz de realizar um cadastro seu na plataforma, sendo que este cadastro não é separado em um primeiro momento em usuários que prestarão o serviço e usuários que procuram o serviço. Essa opção será um campo do nosso cadastro, fazendo com que se ele for escolhido o usuário será categorizado como 1 (cliente) e 2 (prestador de serviço).
+- Primeiramente, temos a opção de cada usuário realizar um cadastro na plataforma, sendo que este cadastro não é separado, em um primeiro momento, em usuários que prestarão o serviço e usuários que procurarão o serviço. Essa opção será um campo do nosso cadastro, fazendo com que, se for escolhido, o usuário será categorizado como 1 (cliente) e 2 (prestador de serviço).
 
-- Tendo o usuário cadastrado, os usuários que são clientes podem começar a buscaros serviços que desejam, conforme os disponibilizados pela plataforma e os prestadores podem falar quais serviços eles executam. Essa busca pode ser filtrada por cidade, email, usuário, serviço entre outros o que facilita a busca de um usuário ou serviço específico.
+- Com o usuário cadastrado, os usuários que são clientes podem começar a buscar os serviços que desejam, conforme os disponibilizados pela plataforma, e os prestadores podem informar quais serviços eles executam. Essa busca pode ser filtrada por cidade, e-mail, usuário, serviço, entre outros, o que facilita a busca de um usuário ou serviço específico.
 
-- O cliente então, tendo o serviço que ele deseja encontrado, pode então pedir para o prestador o orçamento deste serviço bem como a data para que ele seja executado, ficando a cargo do prestador preencher o preço e o tempo estimado em que ele executará o serviço, além de se ele confima a data. Vale ressaltar que implementaremos também funções para que o cliente consiga acompanhar os serviços que ele já solicitou e o prestador também poderá acompanhar o orçamentos que ele ainda tem que responder e os que já respondeu, assim como um status de cada uma das etapas do processo a partir da solicitação do orçamento.
+- O cliente, tendo encontrado o serviço que deseja, pode pedir ao prestador o orçamento deste serviço, bem como a data para que ele seja executado, ficando a cargo do prestador preencher o preço e o tempo estimado em que executará o serviço, além de confirmar a data. Vale ressaltar que implementaremos também funções para que o cliente consiga acompanhar os serviços que já solicitou e o prestador possa acompanhar os orçamentos que ainda tem que responder e os que já respondeu, assim como um status de cada uma das etapas do processo a partir da solicitação do orçamento.
 
-- Posteriormente, tendo o orçamento sido aceitado pelo prestador ele volta para o cliente para que o mesmo consiga analisar o valor e o tempo de serviço e responda se ele está de acordo ou não com o serviço. Caso seja verdade, o serviço é agendado e executado na data agendada, caso não ele é cancelado.
+- Posteriormente, tendo o orçamento sido aceito pelo prestador, ele volta para o cliente para que este consiga analisar o valor e o tempo de serviço e responda se está de acordo ou não com o serviço. Caso esteja, o serviço é agendado e executado na data marcada; caso contrário, ele é cancelado.
 
-- Sendo então o serviço marcado para execução, o serviço é executado. Confirmada a execução tanto pelo prestador como pelo cliente. O cliente também fica responsável por avaliar o prestador com uma nota e um comentário.
+- Sendo o serviço marcado para execução, ele é executado. A execução é confirmada tanto pelo prestador quanto pelo cliente. O cliente também é responsável por avaliar o prestador com uma nota e um comentário.
 
 ## Integrantes:
 
