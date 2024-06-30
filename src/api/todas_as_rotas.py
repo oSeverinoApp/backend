@@ -43,8 +43,8 @@ def drop_db():
 def create_user():
     try:
         data = request.get_json()
-        data = domainUserService.create_user(data['name'], data['email'], data['state'], data['city'])
-        return jsonify({'message': 'User created successfully',
+        data = domainUserService.create_user(data['name'], data['email'], data['state'], data['city'], data['user_type'])
+        return jsonify({'message': 'User created successfully!',
                         "data": data})
     except ValueError as e:
         print(e)

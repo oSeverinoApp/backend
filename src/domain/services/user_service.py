@@ -15,7 +15,7 @@ class UserService:
         try:
             user = self.repositories.get_user_by_email(user.email)
             if user:
-                raise ValueError('Usuário já cadastrado')
+                raise ValueError('User already registered.')
             else:
                 user = self.repositories.create_user(user)
             return {
