@@ -23,10 +23,12 @@ jobs:
 
       - name: Install PostgreSQL
         run: |
-          brew install postgresql
-          brew services start postgresql
-          sleep 5  # Espera o serviço iniciar completamente
+          brew install postgresql@16
+          sleep 10  # Espera o serviço iniciar completamente
+          brew services start postgresql@16
+          sleep 10  # Espera o serviço iniciar completamente
           brew services list  # Verifica o status do PostgreSQL
+          sleep 10  # Espera o serviço iniciar completamente
 
       - name: Configure PostgreSQL
         run: |
