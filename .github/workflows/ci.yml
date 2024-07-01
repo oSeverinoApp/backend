@@ -54,17 +54,15 @@ jobs:
         run: pip install docker-compose
       - name: Start Docker Compose for Tests
         run: |
-          cd backend
           docker-compose -f docker-compose.test.yml up -d
       - name: Initialize Test Database
-        run: python backend/init_test_db.py
+        run: python init_test_db.py
       - name: Check test database connection
         run: |
           sleep 10
           psql -h localhost -p 5434 -U severinoapp_test -d severinoapp_test_db -c '\l'
       - name: Start Docker Compose for Production Database
         run: |
-          cd backend
           docker-compose up -d
       - name: Check production database connection
         run: |
@@ -72,7 +70,6 @@ jobs:
           psql -h localhost -p 5433 -U severinoapp -d severinoapp_db -c '\l'
       - name: Install application dependencies
         run: |
-          cd backend
           pip install -r nrequirements.txt
       - name: Run application
         run: |
@@ -83,10 +80,8 @@ jobs:
       - name: Shutdown Docker Compose for Test Database
         if: always()
         run: |
-          cd backend
           docker-compose -f docker-compose.test.yml down
       - name: Shutdown Docker Compose for Production Database
         if: always()
         run: |
-          cd backend
           docker-compose down
