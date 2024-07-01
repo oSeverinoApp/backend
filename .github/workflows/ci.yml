@@ -10,7 +10,11 @@ jobs:
       postgres:
         image: postgres
         env:
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5434
+          POSTGRES_USER: severinoapp_test
           POSTGRES_PASSWORD: severinoapp_test
+          POSTGRES_DB: severinoapp_test_db
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
