@@ -26,7 +26,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.8'  # Escolha a versão do Python que deseja usar
+          python-version: '3.9'  # Escolha a versão do Python que deseja usar
 
       - name: Install Python dependencies
         run: |
@@ -34,7 +34,7 @@ jobs:
           pip install psycopg2  # ou qualquer outra biblioteca necessária
 
       - name: Connect to PostgreSQL
-        run: python script.py  # Substitua 'script.py' pelo nome do seu script Python
+        run: python src/app.py  # Substitua 'script.py' pelo nome do seu script Python
         env:
           POSTGRES_HOST: localhost
           POSTGRES_PORT: 5432
