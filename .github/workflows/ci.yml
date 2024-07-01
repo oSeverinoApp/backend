@@ -1,7 +1,7 @@
 name: CI-build
 
 on:
-  workflow_dispatch: # Permite o disparo manual da workflow
+  workflow_dispatch:
   push:
     branches:
       - develop
@@ -15,7 +15,7 @@ jobs:
       fail-fast: true
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ['3.7', '3.8', '3.9'] # Definindo múltiplas versões do Python para testar
+        python-version: ['3.9']
 
     steps:
       - uses: actions/checkout@v2
@@ -23,5 +23,5 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-      - run: pip install -r nrequirements.txt # Instala as dependências do projeto
-      - run: pytest # Executa testes unitários com pytest
+      - run: pip install -r nrequirements.txt
+      - run: pytest
