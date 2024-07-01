@@ -6,21 +6,6 @@ jobs:
   build:
     runs-on: windows-latest
 
-    services:
-      postgres:
-        image: postgres:13
-        env:
-          POSTGRES_USER: severinoapp_test
-          POSTGRES_PASSWORD: severinoapp_test
-          POSTGRES_DB: severinoapp_test_db
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
@@ -30,18 +15,19 @@ jobs:
         with:
           python-version: "3.9"
 
-      - name: Wait for PostgreSQL to be ready
+      - name: Install PostgreSQL
         run: |
-          sleep 10
-          until pg_isready -h localhost -p 5432 -U severinoapp_test; do echo "Waiting for postgres..."; sleep 1; done
+          choco install postgresql --params '/Password:severinoapp_test'
+          setx /M PGUSER severinoapp_test
+          setx /M PGPASSWORD severinoapp_test
+          setx /M PGHOST localhost
+          setx /M PGPORT 5432
+          setx /M PGDATABASE severinoapp_test_db
 
-      - name: Set environment variables for PostgreSQL
+      - name: Initialize PostgreSQL
         run: |
-          echo "POSTGRES_USER=severinoapp_test" >> $GITHUB_ENV
-          echo "POSTGRES_PASSWORD=severinoapp_test" >> $GITHUB_ENV
-          echo "POSTGRES_HOST=localhost" >> $GITHUB_ENV
-          echo "POSTGRES_PORT=5432" >> $GITHUB_ENV
-          echo "POSTGRES_DB=severinoapp_test_db" >> $GITHUB_ENV
+          "C:\Program Files\PostgreSQL\13\bin\psql.exe" -U postgres -c "CREATE USER severinoapp_test WITH PASSWORD 'severinoapp_test';"
+          "C:\Program Files\PostgreSQL\13\bin\psql.exe" -U postgres -c "CREATE DATABASE severinoapp_test_db OWNER severinoapp_test;"
 
       - name: Install Python dependencies
         run: |
@@ -52,8 +38,8 @@ jobs:
       - name: Run tests
         run: pytest
         env:
-          POSTGRES_USER: ${{ env.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
-          POSTGRES_HOST: ${{ env.POSTGRES_HOST }}
-          POSTGRES_PORT: ${{ env.POSTGRES_PORT }}
-          POSTGRES_DB: ${{ env.POSTGRES_DB }}
+          POSTGRES_USER: severinoapp_test
+          POSTGRES_PASSWORD: severinoapp_test
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
+          POSTGRES_DB: severinoapp_test_db
