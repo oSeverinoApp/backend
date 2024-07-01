@@ -21,7 +21,7 @@ jobs:
           $env:PGUSER='severinoapp_test' # Usuário para autenticação
           $env:PGPASSWORD='severinoapp_test' # Senha para autenticação
           $env:PGHOST='localhost' # Host do servidor PostgreSQL
-          $env:PGPORT='5434' # Porta padrão do PostgreSQL
+          $env:PGPORT='5432' # Porta padrão do PostgreSQL
           $env:PGDATABASE='severinoapp_test_db' # Nome do banco de dados
           & 'C:\Program Files\PostgreSQL\13\bin\psql.exe' -c "CREATE USER severinoapp_test WITH PASSWORD 'severinoapp_test';"
           & 'C:\Program Files\PostgreSQL\13\bin\psql.exe' -c "CREATE DATABASE severinoapp_test_db OWNER severinoapp_test;"
@@ -36,7 +36,7 @@ jobs:
         run: pytest
         env:
           POSTGRES_HOST: localhost
-          POSTGRES_PORT: 5434
+          POSTGRES_PORT: 5432
           POSTGRES_USER: severinoapp_test
           POSTGRES_PASSWORD: severinoapp_test
           POSTGRES_DB: severinoapp_test_db

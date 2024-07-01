@@ -11,7 +11,7 @@ jobs:
         image: postgres
         env:
           POSTGRES_HOST: localhost
-          POSTGRES_PORT: 5434
+          POSTGRES_PORT: 5432
           POSTGRES_USER: severinoapp_test
           POSTGRES_PASSWORD: severinoapp_test
           POSTGRES_DB: severinoapp_test_db
@@ -21,7 +21,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
         ports:
-          - 5434:5432
+          - 5432:5432
 
     steps:
       - name: Check out repository code
@@ -43,7 +43,7 @@ jobs:
         run: pytest
         env:
           POSTGRES_HOST: localhost
-          POSTGRES_PORT: 5434
+          POSTGRES_PORT: 5432
           POSTGRES_USER: severinoapp_test
           POSTGRES_PASSWORD: severinoapp_test
           POSTGRES_DB: severinoapp_test_db
