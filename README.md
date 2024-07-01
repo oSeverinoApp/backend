@@ -34,7 +34,7 @@ O nosso sistema possui algumas funções que o definem, as quais serão retratad
 
 ## Ativação da docker
 
-- Passos (Ubuntu):
+### Passos (Ubuntu):
 
 1. `sudo apt update`
 2. `sudo apt install postgresql postgresql-contrib`
