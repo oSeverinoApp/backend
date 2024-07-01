@@ -25,7 +25,7 @@ jobs:
           export PGUSER=severinoapp_test
           export PGPASSWORD=severinoapp_test
           export PGHOST=localhost
-          export PGPORT=5434  # Porta padrão do PostgreSQL, altere se necessário
+          export PGPORT=5432  # Porta padrão do PostgreSQL, altere se necessário
           export PGDATABASE=severinoapp_test_db
           psql -c "CREATE ROLE severinoapp_test WITH LOGIN PASSWORD 'severinoapp_test';"
           psql -c "CREATE DATABASE severinoapp_test_db OWNER severinoapp_test;"
