@@ -15,7 +15,7 @@ class UserService:
         try:
             user = self.repositories.get_user_by_email(user.email)
             if user:
-                raise ValueError('Usuário já cadastrado')
+                raise ValueError('User already registered.')
             else:
                 user = self.repositories.create_user(user)
             return {
@@ -63,26 +63,27 @@ class UserService:
             print(str(e))
             raise Exception('Internal server error')
     
-    def verify_service_already_registered(self, user:int, service:int):
+    def verify_service_already_registered(self, user: int, service: int):
         userServices = self.repositories.get_user_services(user)
-        for service in userServices:
-            if service.service_id == service:
+        for user_service in userServices:
+            if user_service.service_id == service:
                 return True
         return False
 
-    def add_user_service(self, user:int, service:int):
+    def add_user_service(self, user: int, service: int):
         try:
             if self.verify_service_already_registered(user, service):
                 raise ValueError('Serviço já cadastrado para o usuário')
             userService = self.repositories.add_user_service(user, service)
-            userService = {'user_id': userService.user_id, 'service_id': userService.service_id}
+            return {'user_id': userService.user_id, 'service_id': userService.service_id}
         except ValueError as e:
             raise ValueError(f'Erro ao adicionar serviço ao usuario: {str(e)}')
         except Exception as e:
             print(str(e))
             raise Exception('Internal server error')
 
-    def get_users_by_service(self, service:str):
+
+    def get_users_by_service(self, service:int):
         try:
             users = self.repositories.get_users_by_service(service)
             users = [{'name': user.name, 'email': user.email, 'state': user.state, 'city': user.city} for user in users]
