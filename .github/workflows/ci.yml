@@ -36,7 +36,7 @@ jobs:
 
 
       - name: Connect to PostgreSQL
-        run: python src/app.py  # Substitua 'script.py' pelo nome do seu script Python
+        run: pytest
         env:
           POSTGRES_HOST: localhost
           POSTGRES_PORT: 5434
