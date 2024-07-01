@@ -1,76 +1,43 @@
-name: CI-build
+name: PostgreSQL service example
 
-on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - src/**
-      - backend/**  # Asegurando que mudanças aqui também disparam o workflow
+on: push
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: true
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ['3.7', '3.8', '3.9']
+  container-job:
+    runs-on: ubuntu-latest
+
     services:
       postgres:
-        image: postgres:13
+        image: postgres
         env:
-          POSTGRES_USER: severinoapp
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: severinoapp_db
-        ports:
-          - 5432:5432
+          POSTGRES_PASSWORD: postgres
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+        ports:
+          - 5432:5432
 
     steps:
-      - uses: actions/checkout@v2
-
-      - name: List files in the current directory
-        run: ls -la
+      - name: Check out repository code
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: ${{ matrix.python-version }}
-      
-      - name: Install Docker Compose (Linux and MacOS only)
-        if: matrix.os != 'windows-latest'
+          python-version: '3.8'  # Escolha a versão do Python que deseja usar
+
+      - name: Install Python dependencies
         run: |
-          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
+          python -m pip install --upgrade pip
+          pip install psycopg2  # ou qualquer outra biblioteca necessária
 
-      - name: Start Docker Compose
-        run: docker-compose -f docker-compose.test.yml up -d
-
-      - name: Initialize Test Database
-        run: python init_test_db.py
-
-      - name: Check database connection
-        run: |
-          sleep 10
-          psql -h localhost -p 5432 -U severinoapp -d severinoapp_db -c '\l'
-
-      - name: Install application dependencies
-        run: pip install -r nrequirements.txt
-
-      - name: Run application
-        run: |
-          cd src
-          python app.py
-
-      - name: Run tests
-        run: pytest
-
-      - name: Shutdown Docker Compose
-        if: always()
-        run: docker-compose -f docker-compose.test.yml down
+      - name: Connect to PostgreSQL
+        run: python script.py  # Substitua 'script.py' pelo nome do seu script Python
+        env:
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
