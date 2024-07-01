@@ -3,11 +3,8 @@ name: PostgreSQL service example
 on: push
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+  container-job:
+    runs-on: ubuntu-latest
 
     services:
       postgres:
@@ -40,6 +37,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install psycopg2  # ou qualquer outra biblioteca necessária
           pip install -r nrequirements.txt # Instala as dependências do projeto
+
 
       - name: Connect to PostgreSQL
         run: pytest
