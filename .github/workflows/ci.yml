@@ -1,87 +1,44 @@
 name: CI-build
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # Permite o disparo manual da workflow
   push:
     branches:
-      - main
+      - develop
     paths:
       - src/**
 
 jobs:
   build:
     runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ['3.7', '3.8', '3.9'] # Definindo múltiplas versões do Python para testar
+
     services:
-      postgres_test:
-        image: postgres:13
+      postgres:
+        image: postgres:latest
         env:
           POSTGRES_USER: severinoapp_test
           POSTGRES_PASSWORD: severinoapp_test
           POSTGRES_DB: severinoapp_test_db
         ports:
-          - 5434:5432
+          - 5434:5434
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-      postgres_prod:
-        image: postgres:13
-        env:
-          POSTGRES_USER: severinoapp
-          POSTGRES_PASSWORD: severinoapp
-          POSTGRES_DB: severinoapp_db
-        ports:
-          - 5433:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-    strategy:
-      fail-fast: true
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ['3.9']
-
+    
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install Docker Compose
-        run: pip install docker-compose
-      - name: Start Docker Compose for Tests
-        run: |
-          docker-compose -f docker-compose.test.yml up -d
-      - name: Initialize Test Database
-        run: python init_test_db.py
-      - name: Check test database connection
-        run: |
-          sleep 10
-          psql -h localhost -p 5434 -U severinoapp_test -d severinoapp_test_db -c '\l'
-      - name: Start Docker Compose for Production Database
-        run: |
-          docker-compose up -d
-      - name: Check production database connection
-        run: |
-          sleep 10
-          psql -h localhost -p 5433 -U severinoapp -d severinoapp_db -c '\l'
-      - name: Install application dependencies
-        run: |
-          pip install -r nrequirements.txt
-      - name: Run application
-        run: |
-          cd src
-          python app.py
-      - name: Run tests
-        run: pytest
-      - name: Shutdown Docker Compose for Test Database
-        if: always()
-        run: |
-          docker-compose -f docker-compose.test.yml down
-      - name: Shutdown Docker Compose for Production Database
-        if: always()
-        run: |
-          docker-compose down
+      - run: pip install -r nrequirements.txt # Instala as dependências do projeto
+      - env:
+        DATABASE_URL: postgresql://severinoapp_test:severinoapp_test@localhost:5434/severinoapp_test_db
+      - run: pytest # Executa testes unitários com pytest
