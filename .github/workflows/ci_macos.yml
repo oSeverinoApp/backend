@@ -19,18 +19,17 @@ jobs:
         run: |
           brew install postgresql
           brew services start postgresql
+          sleep 5  # Espera o serviço iniciar completamente
 
       - name: Configure PostgreSQL
         run: |
           export PGUSER=severinoapp_test
           export PGPASSWORD=severinoapp_test
           export PGHOST=localhost
-          export PGPORT=5434
+          export PGPORT=5432  # Porta padrão do PostgreSQL, altere se necessário
           export PGDATABASE=severinoapp_test_db
-          echo "host all all 127.0.0.1/32 md5" >> /usr/local/var/postgres/pg_hba.conf
-          echo "listen_addresses = '*'" >> /usr/local/var/postgres/postgresql.conf
-          echo "port = 5434" >> /usr/local/var/postgres/postgresql.conf
-          brew services restart postgresql
+          psql -c "CREATE ROLE severinoapp_test WITH LOGIN PASSWORD 'severinoapp_test';"
+          psql -c "CREATE DATABASE severinoapp_test_db OWNER severinoapp_test;"
 
       - name: Install Python dependencies
         run: |
@@ -42,7 +41,7 @@ jobs:
         run: pytest
         env:
           POSTGRES_HOST: localhost
-          POSTGRES_PORT: 5434
+          POSTGRES_PORT: 5432  # Altere para a porta correta se necessário
           POSTGRES_USER: severinoapp_test
           POSTGRES_PASSWORD: severinoapp_test
           POSTGRES_DB: severinoapp_test_db
