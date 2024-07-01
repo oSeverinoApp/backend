@@ -13,30 +13,38 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.9'  # Escolha a versão do Python que deseja usar
+          python-version: "3.9"
 
       - name: Install PostgreSQL
         run: |
-          choco install postgresql --params '/Password:severinoapp_test'
-          $env:PGUSER='severinoapp_test' # Usuário para autenticação
-          $env:PGPASSWORD='severinoapp_test' # Senha para autenticação
+          choco install postgresql --params "/Password:severinoapp_test"
+          $env:PGUSER='postgres' # Usuário padrão do PostgreSQL
+          $env:PGPASSWORD='severinoapp_test' # Senha fornecida durante a instalação
           $env:PGHOST='localhost' # Host do servidor PostgreSQL
-          $env:PGPORT='5434' # Porta padrão do PostgreSQL
-          $env:PGDATABASE='severinoapp_test_db' # Nome do banco de dados
-          & 'C:\Program Files\PostgreSQL\13\bin\psql.exe' -c "CREATE USER severinoapp_test WITH PASSWORD 'severinoapp_test';"
-          & 'C:\Program Files\PostgreSQL\13\bin\psql.exe' -c "CREATE DATABASE severinoapp_test_db OWNER severinoapp_test;"
+          $env:PGPORT='5432' # Porta padrão do PostgreSQL
+          $env:PGDATABASE='postgres' # Banco de dados padrão
+          Start-Process -NoNewWindow -FilePath "C:\Program Files\PostgreSQL\13\scripts\runpsql.bat" -ArgumentList "-c `"CREATE USER severinoapp_test WITH PASSWORD 'severinoapp_test';`""
+          Start-Process -NoNewWindow -FilePath "C:\Program Files\PostgreSQL\13\scripts\runpsql.bat" -ArgumentList "-c `"CREATE DATABASE severinoapp_test_db OWNER severinoapp_test;`""
+
+      - name: Set environment variables for PostgreSQL
+        run: |
+          echo "POSTGRES_USER=severinoapp_test" >> $GITHUB_ENV
+          echo "POSTGRES_PASSWORD=severinoapp_test" >> $GITHUB_ENV
+          echo "POSTGRES_HOST=localhost" >> $GITHUB_ENV
+          echo "POSTGRES_PORT=5432" >> $GITHUB_ENV
+          echo "POSTGRES_DB=severinoapp_test_db" >> $GITHUB_ENV
 
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install psycopg2  # ou qualquer outra biblioteca necessária
-          pip install -r nrequirements.txt # Instala as dependências do projeto
+          pip install psycopg2
+          pip install -r nrequirements.txt
 
-      - name: Connect to PostgreSQL
+      - name: Run tests
         run: pytest
         env:
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: 5434
-          POSTGRES_USER: severinoapp_test
-          POSTGRES_PASSWORD: severinoapp_test
-          POSTGRES_DB: severinoapp_test_db
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+          POSTGRES_HOST: ${{ env.POSTGRES_HOST }}
+          POSTGRES_PORT: ${{ env.POSTGRES_PORT }}
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
