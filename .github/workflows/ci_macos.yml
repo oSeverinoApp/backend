@@ -3,25 +3,8 @@ name: PostgreSQL service example
 on: push
 
 jobs:
-  build-macos:
+  build:
     runs-on: macos-latest
-
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: 5434
-          POSTGRES_USER: severinoapp_test
-          POSTGRES_PASSWORD: severinoapp_test
-          POSTGRES_DB: severinoapp_test_db
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5434:5432
 
     steps:
       - name: Check out repository code
@@ -39,8 +22,13 @@ jobs:
 
       - name: Configure PostgreSQL
         run: |
-          psql postgres -c "CREATE USER severinoapp_test WITH PASSWORD 'severinoapp_test';"
-          psql postgres -c "CREATE DATABASE severinoapp_test_db OWNER severinoapp_test;"
+          export PGUSER=severinoapp_test
+          export PGPASSWORD=severinoapp_test
+          export PGHOST=localhost
+          export PGPORT=5434  # Porta padrão do PostgreSQL, altere se necessário
+          export PGDATABASE=severinoapp_test_db
+          psql -c "CREATE ROLE severinoapp_test WITH LOGIN PASSWORD 'severinoapp_test';"
+          psql -c "CREATE DATABASE severinoapp_test_db OWNER severinoapp_test;"
 
       - name: Install Python dependencies
         run: |
