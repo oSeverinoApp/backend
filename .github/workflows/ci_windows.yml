@@ -6,6 +6,21 @@ jobs:
   build:
     runs-on: windows-latest
 
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: severinoapp_test
+          POSTGRES_PASSWORD: severinoapp_test
+          POSTGRES_DB: severinoapp_test_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
@@ -15,16 +30,10 @@ jobs:
         with:
           python-version: "3.9"
 
-      - name: Install PostgreSQL
+      - name: Wait for PostgreSQL to be ready
         run: |
-          choco install postgresql --params "/Password:severinoapp_test"
-          $env:PGUSER='postgres' # Usuário padrão do PostgreSQL
-          $env:PGPASSWORD='severinoapp_test' # Senha fornecida durante a instalação
-          $env:PGHOST='localhost' # Host do servidor PostgreSQL
-          $env:PGPORT='5432' # Porta padrão do PostgreSQL
-          $env:PGDATABASE='postgres' # Banco de dados padrão
-          Start-Process -NoNewWindow -FilePath "C:\Program Files\PostgreSQL\13\scripts\runpsql.bat" -ArgumentList "-c `"CREATE USER severinoapp_test WITH PASSWORD 'severinoapp_test';`""
-          Start-Process -NoNewWindow -FilePath "C:\Program Files\PostgreSQL\13\scripts\runpsql.bat" -ArgumentList "-c `"CREATE DATABASE severinoapp_test_db OWNER severinoapp_test;`""
+          sleep 10
+          until pg_isready -h localhost -p 5432 -U severinoapp_test; do echo "Waiting for postgres..."; sleep 1; done
 
       - name: Set environment variables for PostgreSQL
         run: |
