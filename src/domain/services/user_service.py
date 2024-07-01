@@ -83,7 +83,7 @@ class UserService:
             raise Exception('Internal server error')
 
 
-    def get_users_by_service(self, service:str):
+    def get_users_by_service(self, service:int):
         try:
             users = self.repositories.get_users_by_service(service)
             users = [{'name': user.name, 'email': user.email, 'state': user.state, 'city': user.city} for user in users]

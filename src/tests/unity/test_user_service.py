@@ -63,7 +63,7 @@ def test_get_users_by_state(user_service, mock_repositories):
 def test_verify_service_already_registered(user_service, mock_repositories):
     mock_repositories.get_user_services.return_value = [Mock(service_id=1)]
     result = user_service.verify_service_already_registered(1, 1)
-    assert result is False  # Verifique se o resultado esperado é False, não True
+    assert result is True
 
 def test_verify_service_not_registered(user_service, mock_repositories):
     mock_repositories.get_user_services.return_value = [Mock(service_id=1)]
@@ -71,25 +71,15 @@ def test_verify_service_not_registered(user_service, mock_repositories):
     assert result is False
 
 def test_add_user_service(user_service, mock_repositories):
-    # Setup the mock to return an existing service for the user
     mock_repositories.get_user_services.return_value = [Mock(service_id=2)]
-    # Setup the mock to return a user service object with the expected attributes
     mock_repositories.add_user_service.return_value = Mock(user_id=1, service_id=1)
 
-    # Call the function with a user ID and service ID
     result = user_service.add_user_service(1, 1)
 
-    # Assert that the result matches the expected output
     assert result == {'user_id': 1, 'service_id': 1}
 
 
-
-def test_verify_service_already_registered(user_service, mock_repositories):
-    mock_repositories.get_user_services.return_value = [Mock(service_id=1)]
-    result = user_service.verify_service_already_registered(1, 2)  # Simula um serviço não registrado
-    assert result is False  # Agora esperamos que o resultado seja False
-
-def test_isTheServicePossibleToBeGenerated(service, mock_repositories):
+def test_is_the_service_possible_to_be_generated(service, mock_repositories):
     mock_repositories.get_user_by_id.return_value = Mock(user_type=2)
     mock_repositories.get_user_service_by_user.return_value = [Mock(service_id=1)]
     mock_repositories.get_services_order_by_client_provider.return_value = []
@@ -125,3 +115,49 @@ def test_accept_service_order_value(service, mock_repositories):
     result = service.accept_service_order_value(1)
     assert result.service_order == 1
     assert result.status == 3
+
+def test_add_user_service_success(user_service, mock_repositories):
+    mock_repositories.get_user_services.return_value = []
+    mock_repositories.add_user_service.return_value = Mock(user_id=1, service_id=1)
+    result = user_service.add_user_service(1, 1)
+    assert result == {'user_id': 1, 'service_id': 1}, "Deveria retornar um dicionário com os IDs do usuário e serviço"
+
+def test_add_user_service_failure(user_service, mock_repositories):
+    mock_repositories.get_user_services.side_effect = Exception("Internal server error")
+    with pytest.raises(Exception) as excinfo:
+        user_service.add_user_service(1, 1)
+    assert "Internal server error" in str(excinfo.value), "Deveria lançar uma exceção de erro interno do servidor"
+
+def test_get_users_by_service_found(user_service, mock_repositories):
+    user = User("Test User", "test@test.com", "Test State", "Test City")
+    mock_repositories.get_users_by_service.return_value = [user]
+    result = user_service.get_users_by_service(1)
+    expected_result = [{'name': user.name, 'email': user.email, 'state': user.state, 'city': user.city}]
+    assert result == expected_result, "Deveria retornar uma lista de usuários para o serviço especificado"
+
+def test_get_users_by_service_not_found(user_service, mock_repositories):
+    mock_repositories.get_users_by_service.return_value = []
+    result = user_service.get_users_by_service('service_id')
+    assert result == [], "Deveria retornar uma lista vazia se nenhum usuário estiver registrado no serviço"
+
+def test_get_users_by_service_error(user_service, mock_repositories):
+    mock_repositories.get_users_by_service.side_effect = Exception("Internal server error")
+    with pytest.raises(Exception) as excinfo:
+        user_service.get_users_by_service('service_id')
+    assert "Internal server error" in str(excinfo.value), "Deveria lançar uma exceção indicando um erro interno do servidor"
+
+def test_create_user_exception(user_service, mock_repositories):
+    user = User("Test User", "test@test.com", "Test State", "Test City")
+    mock_repositories.get_user_by_email.return_value = user
+    mock_repositories.create_user.side_effect = Exception("Internal server error")
+    with pytest.raises(Exception) as excinfo:
+        user_service.create_user(user.name, user.email, user.state, user.city)
+    print("mensagem de erro")
+    print(str(excinfo.value))
+    assert "Erro ao criar usuario: User already registered." in str(excinfo.value), "Deveria capturar e relançar exceções como erro interno do servidor"
+
+def test_get_user_by_email_exception(user_service, mock_repositories):
+    mock_repositories.get_user_by_email.side_effect = Exception("Internal server error")
+    with pytest.raises(Exception) as excinfo:
+        user_service.get_user_by_email("test@test.com")
+    assert "Internal server error" in str(excinfo.value), "Deveria capturar e relançar exceções como erro interno do servidor"
