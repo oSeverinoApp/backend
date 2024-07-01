@@ -32,7 +32,7 @@ jobs:
 
       - name: Configure PostgreSQL
         run: |
-          psql -c "CREATE ROLE IF NOT EXISTS ${PGUSER} WITH LOGIN PASSWORD '${PGPASSWORD}' CREATEDB;"
+          psql -c "CREATE USER ${PGUSER} WITH PASSWORD '${PGPASSWORD}' CREATEDB;"
           psql -c "SELECT rolname FROM pg_roles;"
           psql -c "CREATE DATABASE IF NOT EXISTS ${PGDATABASE} OWNER ${PGUSER};"
           psql -c "\l"  # Lista todos os bancos de dados
