@@ -9,7 +9,16 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-
+      
+      - name: setup-postgresql
+        uses: ikalnytskyi/action-setup-postgres@v6 
+        with:
+          username: severinoapp_test
+          password: severinoapp_test
+          database: severinoapp_test_db
+          port: 5434
+        id: postgres
+      
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
