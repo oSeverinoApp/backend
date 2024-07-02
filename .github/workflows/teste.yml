@@ -7,39 +7,13 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v2
+      - uses: ikalnytskyi/action-setup-postgres@v6 
         with:
-          python-version: '3.9'  # Escolha a versão do Python que deseja usar
-
-      - name: Set up PostgreSQL
-        run: |
-          brew update
-          brew install postgresql
-          brew services start postgresql
-
-      - name: Create PostgreSQL database
-        run: |
-          createdb mydatabase
-
-      - name: Create new PostgreSQL user
-        env:
-          PGUSER: severinoapp_test
-          PGDATABASE: severinoapp_test_db
-          PGPORT: 5434  # Default PostgreSQL port
-        run: |
-          psql -c "CREATE USER severinoapp_test WITH PASSWORD 'severinoapp_test';"
-          psql -c "GRANT ALL PRIVILEGES ON DATABASE mydatabase TO severinoapp_test;"
-
-      - name: Connect to PostgreSQL and execute commands
-        env:
-          PGUSER: severinoapp_test
-          PGDATABASE: severinoapp_test_db
-          PGPORT: 5434  # Default PostgreSQL port
-          PGPASSWORD: severinoapp_test
+          username: severinoapp_test
+          password: severinoapp_test
+          database: severinoapp_test_db
+          port: 5434
+        id: postgres
 
       - name: Install Python dependencies
         run: |
