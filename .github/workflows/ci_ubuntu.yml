@@ -39,7 +39,7 @@ jobs:
           pip install -r nrequirements.txt # Instala as dependências do projeto
 
 
-      - name: Connect to PostgreSQL
+      - name: Run test
         run: pytest
         env:
           POSTGRES_HOST: localhost

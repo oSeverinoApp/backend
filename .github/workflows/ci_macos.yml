@@ -25,5 +25,5 @@ jobs:
           pip install psycopg2  # ou qualquer outra biblioteca necessária
           pip install -r nrequirements.txt # Instala as dependências do projeto
 
-      - name: Connect to PostgreSQL
+      - name: Run tests
         run: pytest
