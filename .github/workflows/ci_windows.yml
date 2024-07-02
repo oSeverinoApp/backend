@@ -6,6 +6,17 @@ jobs:
   build:
     runs-on: windows-latest
 
+    services:
+      postgres:
+        image: postgres:13-alpine
+        env:
+          POSTGRES_USER: severinoapp_test
+          POSTGRES_PASSWORD: severinoapp_test
+          POSTGRES_DB: severinoapp_test_db
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
@@ -15,20 +26,10 @@ jobs:
         with:
           python-version: "3.9"
 
-      - name: Install PostgreSQL
+      - name: Wait for PostgreSQL to be ready
         run: |
-          choco install postgresql --params '/Password:severinoapp_test'
-          setx /M PGUSER severinoapp_test
-          setx /M PGPASSWORD severinoapp_test
-          setx /M PGHOST localhost
-          setx /M PGPORT 5432
-          setx /M PGDATABASE severinoapp_test_db
-
-      - name: Initialize PostgreSQL
-        shell: powershell
-        run: |
-          & "C:\Program Files\PostgreSQL\13\bin\psql.exe" -U postgres -c "CREATE USER severinoapp_test WITH PASSWORD 'severinoapp_test';"
-          & "C:\Program Files\PostgreSQL\13\bin\psql.exe" -U postgres -c "CREATE DATABASE severinoapp_test_db OWNER severinoapp_test;"
+          Write-Host "Waiting for PostgreSQL to start..."
+          & 'C:\Program Files\PostgreSQL\13\bin\pg_isready.exe' -h localhost -p 5432 -U severinoapp_test -d severinoapp_test_db -t 60
 
       - name: Install Python dependencies
         run: |
