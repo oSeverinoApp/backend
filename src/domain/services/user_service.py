@@ -9,7 +9,7 @@ class UserService:
     def __init__(self, repositories: SqlAchemyRepositories):
         self.repositories = repositories
 
-    def create_user(self, name, email, state, city, user_type):
+    def create_user(self, name, email, state, city, user_type=1):
         ## Cria usuario
         try:
             user = self.repositories.get_user_by_email(email)
