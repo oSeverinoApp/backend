@@ -25,9 +25,10 @@ jobs:
           setx /M PGDATABASE severinoapp_test_db
 
       - name: Initialize PostgreSQL
+        shell: powershell
         run: |
-          "C:\Program Files\PostgreSQL\13\bin\psql.exe" -U postgres -c "CREATE USER severinoapp_test WITH PASSWORD 'severinoapp_test';"
-          "C:\Program Files\PostgreSQL\13\bin\psql.exe" -U postgres -c "CREATE DATABASE severinoapp_test_db OWNER severinoapp_test;"
+          & "C:\Program Files\PostgreSQL\13\bin\psql.exe" -U postgres -c "CREATE USER severinoapp_test WITH PASSWORD 'severinoapp_test';"
+          & "C:\Program Files\PostgreSQL\13\bin\psql.exe" -U postgres -c "CREATE DATABASE severinoapp_test_db OWNER severinoapp_test;"
 
       - name: Install Python dependencies
         run: |
