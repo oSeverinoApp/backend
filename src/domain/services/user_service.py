@@ -9,14 +9,14 @@ class UserService:
     def __init__(self, repositories: SqlAchemyRepositories):
         self.repositories = repositories
 
-    def create_user(self, name, email, state, city):
+    def create_user(self, name, email, state, city, user_type):
         ## Cria usuario
-        user = User(name, email, state, city, user_type=1)
         try:
-            user = self.repositories.get_user_by_email(user.email)
+            user = self.repositories.get_user_by_email(email)
             if user:
                 raise ValueError('User already registered.')
             else:
+                user = User(name, email, state, city, user_type=1)
                 user = self.repositories.create_user(user)
             return {
                 'name': user.name,
