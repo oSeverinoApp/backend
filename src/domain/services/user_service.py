@@ -16,7 +16,7 @@ class UserService:
             if user:
                 raise ValueError('User already registered.')
             else:
-                user = User(name, email, state, city, user_type=1)
+                user = User(name, email, state, city, user_type)
                 user = self.repositories.create_user(user)
             return {
                 'name': user.name,
