@@ -21,7 +21,6 @@ jobs:
           $output = "postgresql.zip"
           Invoke-WebRequest -Uri $url -OutFile $output
           Expand-Archive -Path $output -DestinationPath C:\PostgreSQL
-          Rename-Item -Path C:\PostgreSQL\postgresql-13.2-1-windows-x64-binaries -NewName PostgreSQL
           Remove-Item -Path $output
 
       - name: Set up PostgreSQL environment variables
@@ -35,10 +34,10 @@ jobs:
 
       - name: Initialize PostgreSQL
         run: |
-          initdb -U postgres -A trust -E UTF8 -D "C:/PostgreSQL/data"
-          pg_ctl start -D "C:/PostgreSQL/data" -l logfile
-          psql -U postgres -c "CREATE USER severinoapp_test WITH PASSWORD 'severinoapp_test';"
-          psql -U postgres -c "CREATE DATABASE severinoapp_test_db OWNER severinoapp_test;"
+          & "C:\PostgreSQL\bin\initdb" -U postgres -A trust -E UTF8 -D "C:/PostgreSQL/data"
+          & "C:\PostgreSQL\bin\pg_ctl" start -D "C:/PostgreSQL/data" -l logfile
+          & "C:\PostgreSQL\bin\psql" -U postgres -c "CREATE USER severinoapp_test WITH PASSWORD 'severinoapp_test';"
+          & "C:\PostgreSQL\bin\psql" -U postgres -c "CREATE DATABASE severinoapp_test_db OWNER severinoapp_test;"
 
       - name: Install Python dependencies
         run: |
