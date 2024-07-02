@@ -7,13 +7,8 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - uses: ikalnytskyi/action-setup-postgres@v6 
-        with:
-          username: severinoapp_test
-          password: severinoapp_test
-          database: severinoapp_test_db
-          port: 5434
-        id: postgres
+      - name: Check out repository code
+        uses: actions/checkout@v4
 
       - name: Install Python dependencies
         run: |
@@ -23,8 +18,3 @@ jobs:
 
       - name: Connect to PostgreSQL
         run: pytest
-        env:
-          PGUSER: severinoapp_test
-          PGDATABASE: severinoapp_test_db
-          PGPORT: 5434  # Default PostgreSQL port
-          PGPASSWORD: severinoapp_test
