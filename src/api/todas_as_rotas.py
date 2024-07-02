@@ -53,7 +53,6 @@ def create_user():
         print(e)
         return jsonify({'message': str(e)}), 500
     
-#http://127.0.0.1:5000/api/get_user_by_email/teste@asd.comdomainService = Service(repositories)
 @rotas_controller.route('/get_user_by_email/<email>', methods=['GET'])
 def get_user_by_email(email):
     try:

@@ -2,7 +2,7 @@ import psycopg2
 
 # Dados de conexão
 HOST = "localhost"
-PORT = "5434"
+PORT = "5432"
 USER = "severinoapp_test"
 PASSWORD = "severinoapp_test"
 DB_NAME = "severinoapp_test_db"

@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: severinoapp_test
       POSTGRES_DB: severinoapp_test_db
     ports:
-      - "5434:5432"
+      - "5432:5432"
     volumes:
       - pgdata_test:/var/lib/postgresql/data
 
