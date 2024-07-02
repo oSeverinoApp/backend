@@ -10,46 +10,20 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
+      - name: setup-postgresql
+        uses: ikalnytskyi/action-setup-postgres@v6
         with:
-          python-version: "3.9"
-
-      - name: Download and install PostgreSQL
-        run: |
-          $url = "https://get.enterprisedb.com/postgresql/postgresql-13.2-1-windows-x64-binaries.zip"
-          $output = "postgresql.zip"
-          Invoke-WebRequest -Uri $url -OutFile $output
-          Expand-Archive -Path $output -DestinationPath C:\PostgreSQL
-          Remove-Item -Path $output
-
-      - name: Set up PostgreSQL environment variables
-        run: |
-          setx /M PATH "$env:PATH;C:\PostgreSQL\bin"
-          setx /M PGUSER severinoapp_test
-          setx /M PGPASSWORD severinoapp_test
-          setx /M PGHOST localhost
-          setx /M PGPORT 5432
-          setx /M PGDATABASE severinoapp_test_db
-
-      - name: Initialize PostgreSQL
-        run: |
-          & "C:\PostgreSQL\bin\initdb" -U postgres -A trust -E UTF8 -D "C:/PostgreSQL/data"
-          & "C:\PostgreSQL\bin\pg_ctl" start -D "C:/PostgreSQL/data" -l logfile
-          & "C:\PostgreSQL\bin\psql" -U postgres -c "CREATE USER severinoapp_test WITH PASSWORD 'severinoapp_test';"
-          & "C:\PostgreSQL\bin\psql" -U postgres -c "CREATE DATABASE severinoapp_test_db OWNER severinoapp_test;"
+          username: severinoapp_test
+          password: severinoapp_test
+          database: severinoapp_test_db
+          port: 5434
+        id: postgres
 
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install psycopg2
-          pip install -r nrequirements.txt
+          pip install psycopg2  # ou qualquer outra biblioteca necessária
+          pip install -r nrequirements.txt # Instala as dependências do projeto
 
-      - name: Run tests
+      - name: Run test
         run: pytest
-        env:
-          POSTGRES_USER: severinoapp_test
-          POSTGRES_PASSWORD: severinoapp_test
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: 5432
-          POSTGRES_DB: severinoapp_test_db
