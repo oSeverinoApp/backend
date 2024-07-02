@@ -9,7 +9,7 @@ jobs:
       PGUSER: severinoapp_test
       PGPASSWORD: severinoapp_test
       PGHOST: localhost
-      PGPORT: 5432  # Use a porta padrão ou a que você configurou
+      PGPORT: 5432
       PGDATABASE: severinoapp_test_db
 
     steps:
@@ -24,11 +24,13 @@ jobs:
       - name: Install PostgreSQL
         run: |
           brew install postgresql@16
+          brew link --force postgresql@16
           sleep 10  # Espera o serviço iniciar completamente
           brew services start postgresql@16
           sleep 10  # Espera o serviço iniciar completamente
           brew services list  # Verifica o status do PostgreSQL
-          sleep 10  # Espera o serviço iniciar completamente
+          echo "PATH: $PATH"
+          which psql  # Verifica a localização do psql
 
       - name: Configure PostgreSQL
         run: |
