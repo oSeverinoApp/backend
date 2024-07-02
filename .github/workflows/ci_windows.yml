@@ -1,4 +1,4 @@
-name: PostgreSQL service example
+name: WINDOWS-CI
 
 on: push
 
