@@ -16,7 +16,7 @@ jobs:
           username: severinoapp_test
           password: severinoapp_test
           database: severinoapp_test_db
-          port: 5434
+          port: 5432
         id: postgres
 
       - name: Install Python dependencies
