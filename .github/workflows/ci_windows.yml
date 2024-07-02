@@ -6,17 +6,6 @@ jobs:
   build:
     runs-on: windows-latest
 
-    services:
-      postgres:
-        image: postgres:13-alpine
-        env:
-          POSTGRES_USER: severinoapp_test
-          POSTGRES_PASSWORD: severinoapp_test
-          POSTGRES_DB: severinoapp_test_db
-        ports:
-          - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
@@ -26,10 +15,30 @@ jobs:
         with:
           python-version: "3.9"
 
-      - name: Wait for PostgreSQL to be ready
+      - name: Download and install PostgreSQL
         run: |
-          Write-Host "Waiting for PostgreSQL to start..."
-          & 'C:\Program Files\PostgreSQL\13\bin\pg_isready.exe' -h localhost -p 5432 -U severinoapp_test -d severinoapp_test_db -t 60
+          $url = "https://get.enterprisedb.com/postgresql/postgresql-13.2-1-windows-x64-binaries.zip"
+          $output = "postgresql.zip"
+          Invoke-WebRequest -Uri $url -OutFile $output
+          Expand-Archive -Path $output -DestinationPath C:\PostgreSQL
+          Rename-Item -Path C:\PostgreSQL\postgresql-13.2-1-windows-x64-binaries -NewName PostgreSQL
+          Remove-Item -Path $output
+
+      - name: Set up PostgreSQL environment variables
+        run: |
+          setx /M PATH "$env:PATH;C:\PostgreSQL\bin"
+          setx /M PGUSER severinoapp_test
+          setx /M PGPASSWORD severinoapp_test
+          setx /M PGHOST localhost
+          setx /M PGPORT 5432
+          setx /M PGDATABASE severinoapp_test_db
+
+      - name: Initialize PostgreSQL
+        run: |
+          initdb -U postgres -A trust -E UTF8 -D "C:/PostgreSQL/data"
+          pg_ctl start -D "C:/PostgreSQL/data" -l logfile
+          psql -U postgres -c "CREATE USER severinoapp_test WITH PASSWORD 'severinoapp_test';"
+          psql -U postgres -c "CREATE DATABASE severinoapp_test_db OWNER severinoapp_test;"
 
       - name: Install Python dependencies
         run: |
